@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-chainway2dplugin" version="0.0.1" 
+    xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>Chainway2DPlugin</name>
+    <js-module name="Chainway2DPlugin" src="www/Chainway2DPlugin.js">
+        <clobbers target="Chainway2D" />
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="Chainway2DPlugin">
+                <param name="android-package" value="cordova-plugin-chainway2dplugin.Chainway2DPlugin" />
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
+        <source-file src="src/android/Chainway2DPlugin.java" target-dir="src/cordova-plugin-chainway2dplugin/Chainway2DPlugin" />
+    </platform>
+</plugin>

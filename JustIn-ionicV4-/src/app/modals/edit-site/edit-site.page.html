@@ -1,0 +1,59 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>
+            <div text-center>
+                <label style="color: #222428; font-family: 'Roboto', sans-serif">
+                    Edit Site
+                </label>
+            </div>
+          
+        </ion-title>
+      </ion-toolbar>
+  </ion-header>
+
+<ion-content color="dark tint">
+    <ion-card>
+        <ion-card-content color="dark tint" style="border: solid 2px #FF8F13">
+            <ion-item class="backer">
+                <ion-label style="color: #fcfff9">Name: </ion-label>
+                <ion-input style="color: #fcfff9" [(ngModel)]="nameString" placeholder="Name" value ="{{siteItem.display_name}}"></ion-input>
+              </ion-item>
+              <ion-item class="backer">
+                  <ion-label style="color: #fcfff9">Description: </ion-label>
+                  <ion-input style="color: #fcfff9" [(ngModel)]="descString" placeholder="Description" value="{{siteItem.description}}"></ion-input>
+              </ion-item >
+                <ion-item class="backer">
+                    <ion-label style="color: #fcfff9">Contact Person: </ion-label>
+                    <ion-input style="color: #fcfff9" [(ngModel)]="contactPersonString" placeholder="Contact Person" value="{{siteItem.contact_person.name}}"></ion-input>
+                  </ion-item>
+                  <ion-item class="backer">
+                      <ion-label style="color: #fcfff9">Contact Number: </ion-label>
+                      <ion-input style="color: #fcfff9" [(ngModel)]="contactNumberString" placeholder="Contact Number" value="{{siteItem.contact_person.number}}"></ion-input>
+                    </ion-item> 
+                    <ion-item class="backer">
+                        <ion-label style="color: #fcfff9">Default Policy: </ion-label>
+                        <ion-select [interfaceOptions]="customDefaultOptions" style="color: #fcfff9" [(ngModel)]="defaultPolicy">
+                          <ion-select-option *ngFor="let allowedPolicy of allowedPolicies" value="{{allowedPolicy.display_name}}" [selected]="defaultPolicy == allowedPolicy.display_name">{{allowedPolicy.display_name}}</ion-select-option>
+                        </ion-select>
+                      </ion-item>
+                      <ion-item class="backer">
+                          <ion-label style="color: #fcfff9">Allowed Policies: </ion-label>
+                          <ion-select [interfaceOptions]="customPoliciesOptions" style="color: #fcfff9" [(ngModel)]="setAllowedPoliciesString" multiple="true">
+                            <ion-select-option *ngFor="let all of allPolicies" value="{{all.display_name}}" [selected]="setAllowedPoliciesString">{{all.display_name}}</ion-select-option>
+                          </ion-select>
+                        </ion-item>
+                      </ion-card-content>
+                      
+                      
+    </ion-card>
+    <ion-button (click)="closeModal()" color="primary" left bottom style="width: 15%; padding-left:2%">
+        <label style="color: #222428">
+          Cancel
+        </label>
+      </ion-button>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="saveSite()">
+            <ion-icon color="dark tint" name="bookmark"></ion-icon> 
+         </ion-fab-button>
+      </ion-fab>
+</ion-content>

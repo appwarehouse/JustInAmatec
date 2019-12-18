@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-toolbar color="dark tint">
+        <ion-buttons slot="start">
+            <ion-menu-button color="primary"></ion-menu-button>
+          </ion-buttons>
+      <ion-title>
+         <!--  <div style="float: left">
+              <ion-icon name="menu" (click)="splitView()" style="font-size: 30px" color="primary"></ion-icon>
+        </div> -->
+          <div text-center>
+              <label style="color: #FF8F13; font-family: 'Roboto', sans-serif">
+                  Devices
+              </label>
+          </div>
+        
+      </ion-title>
+      <ion-buttons style="padding-right: 5px" slot=end>
+        <img style="width: 40px; border-radius: 50px; padding-right:5px" src="{{loggedPhoto}}"> 
+        <label style="color: #FF8F13; font-family: 'Roboto', sans-serif; font-weight: bold">{{loggedUsername}}</label>
+    </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content color="dark tint">
+    <div style="height:100% ">
+        <div style="height: 75px">
+              <ion-searchbar style="float: left;width: 49%" color="primary" placeholder="Site Name..." [(ngModel)]="siteSearchTerm" (ionChange)="setFilteredDevicesBySite()"></ion-searchbar>
+              <ion-searchbar style="float: right;width: 49%" color="primary" placeholder="Device Name..." [(ngModel)]="deviceSearchTerm" (ionChange)="setFilteredDevicesByName()"></ion-searchbar>
+        </div>
+      
+                    <ion-list lines="full" style="background-color: #222428">
+                   <ion-item class="backer" *ngFor="let device of devices; let devicesIndex = index" (click)="deviceDetail(devicesIndex)">
+                      <!-- <ion-icon slot="start">
+                          <img style="height: 60px;     
+                          border-radius: 50%;
+                          box-shadow: 0 0 20px #FF8F13;
+                          align-content: center;" src="../../../assets/imgs/deviceIco.png"/>
+                        </ion-icon> -->
+                      <ion-label >
+                          <h2 style="color: #FF8F13; font-size: 25px; font-weight: bold"> {{device.display_name}} </h2>
+                           <p style="color: #fcfff9"> Device Key: {{device.key}} </p>
+                           <p style="color: #fcfff9"> Last Seen: {{device.last_seen_time}}</p>
+                       </ion-label> 
+                       <ion-badge class="badge" color = "primary" item-right>
+                         <label style="color: #222428">
+                            {{device.site_summary.display_name}}
+                         </label>
+                      </ion-badge>      
+                    </ion-item>
+                </ion-list>
+                </div>
+</ion-content>

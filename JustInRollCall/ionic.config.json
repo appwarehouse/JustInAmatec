@@ -1,0 +1,7 @@
+{
+  "name": "RollCall",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,413 @@
+<ion-header>
+  <ion-toolbar color="dark tint">
+      <ion-buttons slot="start">
+          <ion-menu-button color="primary"></ion-menu-button>
+        </ion-buttons>
+    <ion-title>
+        <!-- <div style="float: left">
+            <ion-icon name="menu" (click)="splitView()" style="font-size: 30px" color="primary"></ion-icon>
+      </div> -->
+        <div text-center>
+            <label style="color: #FF8F13; font-family: 'Roboto', sans-serif">
+                Reporting
+            </label>
+        </div>
+      
+    </ion-title>
+    <ion-buttons style="padding-right: 5px" slot=end>
+      <img style="width: 40px; border-radius: 50px; padding-right:5px" src="{{loggedPhoto}}"> 
+      <label style="color: #FF8F13; font-family: 'Roboto', sans-serif; font-weight: bold">{{loggedUsername}}</label>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark tint">
+  <div *ngIf="loader">
+      <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
+  </div>
+    <mat-accordion>
+        <div style="padding-left: 10px; padding-top: 10px; padding-bottom: 20px">
+        <mat-expansion-panel style="width: 99%">
+          <mat-expansion-panel-header style="background-color: #FF8F13">
+            <mat-panel-title>
+              <label style="color: white;font-family: 'Open Sans'">Search</label>
+            </mat-panel-title>
+            <mat-panel-description>
+              <label style="color: white;font-family: 'Open Sans'">
+                  Click to open / close.
+              </label>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div>
+            <div class="row" style="margin: 15px; width: 100%">
+                <mat-form-field style="width:48%; float: left">
+                    <mat-select [(ngModel)]="ReportType" placeholder="Select A Report Type..." (selectionChange)="clearAll($event)">
+                    <mat-option *ngFor="let event of events" [value]="event.value">{{event.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+              
+              <form [formGroup]="dateForm" (ngSubmit)="dateForm.valid && searchResult()" noval>
+                  <mat-form-field style="width:48%; float: left; padding-left: 10px">
+                      <div><label style="font-style: italic">Enter From Date...</label></div>
+                      <mat-datepicker-toggle style="float: left" matsuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                      <input id="fromDateTime" formControlName="fromDateTime" style=" width: 50%; vertical-align:text-bottom; height: 40px; padding-left:3%" [(ngModel)]="fromDateTime" matInput [matDatepicker]="myDatepicker">
+                      <mat-datepicker touchUi #myDatepicker>From...</mat-datepicker>
+                      <mat-error *ngIf="dateForm.hasError('required','fromDateTime')">
+                          A date is <strong>required</strong>
+                        </mat-error>
+                  </mat-form-field>
+            
+                 
+                 <mat-form-field style="width:48%; float: right; padding-right: 10px">
+                      <div><label style="font-style: italic">Enter To Date...</label></div>
+                      <mat-datepicker-toggle  style="float: left" matsuffix [for]="Datepicker"></mat-datepicker-toggle>
+                      <input id="toDateTime" formControlName="toDateTime" style=" width: 50%; vertical-align: middle; height: 40px; padding-left:3%" [(ngModel)]="toDateTime" matInput [matDatepicker]="Datepicker">
+                      <mat-datepicker touchUi #Datepicker>To...</mat-datepicker>
+                      <mat-error *ngIf="dateForm.hasError('required','toDateTime')">
+                          A date is <strong>required</strong>
+                        </mat-error>
+                  </mat-form-field>
+              </form>
+          </div>
+          <div>
+                  <mat-form-field style="width:48%; float: left; padding-left: 10px">
+                      <mat-select [(ngModel)]="selectedSite" placeholder="Select A Site..." (selectionChange)="changeSiteDevices()">
+                      <mat-option *ngFor="let site of sites" [value]="site.display_name">{{site.display_name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field style="width:48%; float: right; padding-left: 10px">
+                    <mat-select [(ngModel)]="setDevicesString" multiple placeholder="Devices...">
+                        <mat-option *ngFor="let all of devices" [value]="all.display_name">{{all.display_name}}</mat-option>
+                      </mat-select>
+                </mat-form-field>
+              
+            </div>
+            <div *ngIf="ReportType === 'AllEvents'">
+              <mat-form-field style="width:98%; float: left; padding-left: 10px">
+                <input matInput placeholder="Enter Search Filter Term" [(ngModel)]="searchFilterTerm">
+              </mat-form-field>          
+        </div>
+          <div style="clear:both; width: 100%; margin: 3px">
+              <button style="width:100%" color=primary mat-raised-button mat-primary matTooltip="Search"
+                aria-label="Button that displays a tooltip when focused or hovered over"
+                (click)="searchResult()" [disabled]="!dateForm.valid">
+                  <label style="color :white;font-family: 'Open Sans'">
+                      Search
+                </label>
+              </button>
+          </div> 
+          <div *ngIf="showExport" style="clear:both; width: 100%; margin: 3px">
+              <button style="background-color:#4caf50; width:100%" mat-raised-button (click)="exportXLSX()">
+                  <label style="color :white;font-family: 'Open Sans'">
+                    Export Excel
+                </label>
+              </button>
+          </div>
+          <div *ngIf="showPDFExport" style="clear:both; width: 100%; margin: 3px">
+            <button style="background-color:red; width:100%" mat-raised-button (click)="exportPDF()">
+                <label style="color :white;font-family: 'Open Sans'">
+                  <mat-icon>picture_as_pdf</mat-icon> Export PDF
+              </label>
+            </button>
+        </div>
+        </mat-expansion-panel>
+      </div>
+      </mat-accordion>
+    <div [hidden]="!viewResults">
+        <div style="margin: 10px" *ngIf="ReportType === 'InOut' && viewResults === true">
+            <div class="d-flex justify-content-between p-2">
+                <ngb-pagination [collectionSize]="inOutCollectionSize" [(page)]="inOutpage" [pageSize]="inOutpageSize">
+                </ngb-pagination>
+              
+                <select class="custom-select" style="width: auto" [(ngModel)]="inOutpageSize">
+                  <option [ngValue]="5">5 items per page</option>
+                  <option [ngValue]="10">10 items per page</option>
+                  <option [ngValue]="25">25 items per page</option>
+                </select>
+              </div>
+          <table class="table table-striped" style="background: white;">
+            <thead>
+            <tr>
+              <th>Site Details</th>
+                                            <th>Event Type</th>
+                                            <th>Event Date</th>
+                                            <th>Event Time</th>
+                                            <th>Minutes On Site</th>
+                                            <th>Vehicle Details</th>
+                                            <th>Driver Details</th>
+                                            <th>Driver Photo</th>
+            </tr>
+            </thead>
+            <tbody *ngFor="let result of inOutResults">
+                  <tr>
+                      <td rowspan="2" style="vertical-align: top; text-align: left">
+                        Name: <strong>{{result.site_name}}</strong><br><br>
+                        Device Name: <strong>{{result.device_name}}</strong>
+                    </td>
+                    <td style="vertical-align: top; text-align: left">
+                        Entry
+                    </td>
+                    <td style="vertical-align: top; text-align: left">
+                    {{result.entrydate}}
+                    </td>
+                    <td style="vertical-align: top; text-align: left">
+                    {{result.entryTime}}
+                    </td>
+                    <td rowspan="2" style="vertical-align: top; text-align: left">
+                    {{result.minsOnSite}}
+                    </td>
+                    
+                    <td rowspan="2" style="vertical-align: top; text-align: left">
+                      <div *ngFor="let item of result.VehicleDetails.split('/')">
+                        {{item}}
+                      </div>
+                    </td>
+                    
+                    <td style="vertical-align: top; text-align: left">
+                      <span *ngIf="result.DriverDetails">{{result.DriverDetails}}</span>
+                      <span *ngIf="!result.DriverDetails">No Driver Data</span>
+
+                    </td>
+                    <td>
+                    <img *ngIf="result.driver_card_photo_url" src="{{result.driver_card_photo_url}}" style="width: 120px">
+                    <img *ngIf="!result.driver_card_photo_url" src="https://via.placeholder.com/120" style="width: 120px">
+
+                    </td>
+                    </tr>
+
+                    <tr>
+                    <td style="vertical-align: top; text-align: left">
+                        Exit
+                    </td>
+                    <td style="vertical-align: top; text-align: left">
+                      <span *ngIf="result.exitdate">{{result.exitdate}}</span>
+                      <span *ngIf="!result.exitdate">No Data</span>
+                    </td>
+                    <td style="vertical-align: top; text-align: left">
+                      <span *ngIf="result.exitTime">{{result.exitTime}}</span>
+                      <span *ngIf="!result.exitTime">No Data</span>
+                    </td>
+                                        
+                    <td style="vertical-align: top; text-align: left">
+                      <span *ngIf="result.exit_driver_name">{{result.exit_driver_name}}<br>
+                        {{result.exit_driver_id_no}}</span>
+                        <span *ngIf="!result.exit_driver_name">No Driver Data</span>
+                    </td>
+                    <td>
+                    <img *ngIf="result.exit_driver_card_photo_url" src="{{result.exit_driver_card_photo_url}}" style="width: 120px">
+                    <img *ngIf="!result.exit_driver_card_photo_url" src="https://via.placeholder.com/120" style="width: 120px">
+
+                    </td>
+                    </tr>
+              
+            </tbody>
+          </table>  
+          <div class="d-flex justify-content-between p-2">
+            <ngb-pagination [collectionSize]="inOutCollectionSize" [(page)]="inOutpage" [pageSize]="inOutpageSize">
+            </ngb-pagination>
+          
+            <select class="custom-select" style="width: auto" [(ngModel)]="inOutpageSize">
+              <option [ngValue]="5">5 items per page</option>
+              <option [ngValue]="10">10 items per page</option>
+              <option [ngValue]="25">25 items per page</option>
+            </select>
+          </div>
+            <!-- <table mat-table  [dataSource]="inOutdataSource" class="mat-elevation-z8" style="max-width:98%; width:98%">
+
+                <ng-container matColumnDef="Site">
+                  <th mat-header-cell *matHeaderCellDef> Site </th>
+                  <td mat-cell *matCellDef="let element" class="td-align" [attr.rowspan]="2"> 
+                    Name: <br>
+                    Device Id:
+                  </td>
+                </ng-container>
+              
+ 
+                <ng-container matColumnDef="Device">
+                  <th mat-header-cell *matHeaderCellDef> Device </th>
+                  <td mat-cell *matCellDef="let element" class="td-align">
+                          <div *ngIf="element.device_name">
+                              <p *ngFor="let item of element.device_name.split(' ')">
+                                {{item}}
+                                </p>
+                          </div>
+                    </td>
+                </ng-container>
+              
+                
+                <ng-container matColumnDef="Entry Date">
+                  <th mat-header-cell *matHeaderCellDef> Entry Date </th>
+                  <td mat-cell *matCellDef="let element" class="td-align"> 
+                    {{element.entrydate}} 
+                  <br>
+                    <mat-chip-list>
+                        <mat-chip color="accent" selected>{{element.entryTime}}</mat-chip>
+                    </mat-chip-list> 
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Exit Date">
+                    <th mat-header-cell *matHeaderCellDef> Exit Date </th>
+                    <td mat-cell *matCellDef="let element" class="td-align"> 
+                      {{element.exitdate}} 
+                    <br>
+                    <mat-chip-list>
+                        <mat-chip color="warn" selected>{{element.exitTime}} </mat-chip>
+                    </mat-chip-list> 
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Minutes On Site">
+                      <th mat-header-cell *matHeaderCellDef> Minutes On Site </th>
+                      <td mat-cell *matCellDef="let element" class="td-align" style="width: 5%"> 
+                        {{element.minsOnSite}}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Vehicle Details">
+                        <th mat-header-cell *matHeaderCellDef> Vehicle Details </th>
+                            <td mat-cell *matCellDef="let element" class="td-align">
+                              <div *ngIf="element.VehicleDetails">
+                                  <p *ngFor="let item of element.VehicleDetails.split('\n')">
+                                    {{item}}
+                                    </p>
+                              </div>
+                              <div *ngIf="!element.VehicleDetails">
+                                  <p>
+                                      No Data
+                                  </p>
+                                </div>
+                               </td>                       
+                      </ng-container>
+
+                      <ng-container matColumnDef="Driver Details">
+                        <th mat-header-cell *matHeaderCellDef> Driver Details </th>
+                          <td mat-cell *matCellDef="let element" class="td-align">
+                              <div *ngIf="element.DriverDetails">
+                                  <p *ngFor="let item of element.DriverDetails.split('\n')">
+                                      {{item}}
+                                      </p>
+                                </div>
+                                <div *ngIf="!element.DriverDetails">
+                                    <p>
+                                        No Data
+                                        </p>
+                                  </div>
+                          </td>
+                      </ng-container>
+                      <ng-container matColumnDef="Driver Photo">
+                        <th mat-header-cell *matHeaderCellDef> Driver Photo </th>
+                        <td mat-cell *matCellDef="let element" style="width: 10%">
+                          <img *ngIf="element.driver_card_photo_url" style="max-width: 150px" src="{{element.driver_card_photo_url}}">
+                          <img *ngIf="!element.driver_card_photo_url" src="https://via.placeholder.com/150">
+
+                        </td>
+                      </ng-container>
+                      
+              
+                <tr mat-header-row *matHeaderRowDef="inOutcolumnsToDisplay"></tr>
+                <tr mat-row *matRowDef="let row; columns: inOutcolumnsToDisplay;"></tr>
+              </table>
+              <mat-paginator #inOutPaginator style="max-width:98%; width:98%" [pageSizeOptions]="[5,10,25]" [pageIndex]="0"  [pageSize]="10"></mat-paginator> -->
+
+        </div>
+      <div style="margin: 10px" [hidden]="ReportType != 'AllEvents'">
+          <table mat-table [dataSource]="datasource" class="mat-elevation-z8" style="max-width:98%; width:98%">
+              <ng-container matColumnDef="Event Date">
+                  <th mat-header-cell *matHeaderCellDef> Event Date </th>
+                  <td mat-cell *matCellDef="let event"> 
+                    <label style="font-family: 'Open Sans'; font-weight: bold; font-size: 18px">{{event.created_at_time}}</label>
+                  </td>
+                </ng-container>
+               <ng-container matColumnDef="Driver Photo">
+                    <th mat-header-cell *matHeaderCellDef> Driver Card Photo </th>
+                    <td mat-cell *matCellDef="let event">
+                      <div *ngIf="event.evidence_items">
+                          <img *ngIf="event.evidence_items.driver_card_photo" style="max-height: 150px;max-width: 150px" src={{event.evidence_items.driver_card_photo.payload}}>
+                          <img *ngIf="!event.evidence_items.driver_card_photo" src="https://via.placeholder.com/150">
+                      </div>
+                      <div *ngIf="!event.evidence_items">
+                          <img src="https://via.placeholder.com/150">
+                      </div>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="Summary">
+                      <th mat-header-cell *matHeaderCellDef> Summary </th>
+                      <td mat-cell *matCellDef="let event">
+                          <div *ngIf="event.evidence_items">
+                            <div *ngIf="event.evidence_items.vehicle_disk">
+                                <p><strong>Vehicle:</strong> {{event.evidence_items.vehicle_disk.licence_no}}, {{event.evidence_items.vehicle_disk.make}}, {{event.evidence_items.vehicle_disk.model}} ,{{event.evidence_items.vehicle_disk.colour}} , {{event.evidence_items.vehicle_disk.description}}</p>
+                            </div>
+                            <div *ngIf="event.evidence_items.driver_card">
+                              <p><strong>Person:</strong> {{event.evidence_items.driver_card.initials}} {{event.evidence_items.driver_card.lastname}}, {{ageCalc(event.evidence_items.driver_card.birth_date.date,event.evidence_items.driver_card.birth_date.day,event.evidence_items.driver_card.birth_date.year)}} Year Old {{event.evidence_items.driver_card.gender}}</p>
+                          </div>
+                          </div>
+                          <div *ngIf="!event.evidence_items">
+                              <label>No Summary Information Available</label>
+                          </div>
+                      </td>
+                    </ng-container>
+                  <ng-container matColumnDef="Evidence Items">
+                      <th mat-header-cell *matHeaderCellDef> Evidence Items </th>
+                      <td mat-cell *matCellDef="let event">
+                        <div *ngIf="event.evidence_items">
+                            <img *ngIf="event.evidence_items.driver_card_photo" title ="Driver Card Photo" style="width: 25px" src="../../../assets/imgs/driver_card_photo.png">
+                            <img *ngIf="event.evidence_items.location" title="Location" style="width: 25px" src="../../../assets/imgs/location.png">
+                            <img *ngIf="event.evidence_items.no_card_warning" title="No Card Warning" style="width: 25px" src="../../../assets/imgs/warning.png">
+                            <img *ngIf="event.evidence_items.driver_photo" title="Driver Photo" style="width: 25px" src="../../../assets/imgs/driver_photo.png">
+                            <img *ngIf="event.evidence_items.unit_number_visit" title="Unit Number Visit" style="width: 25px" src="../../../assets/imgs/unit_visit_number.png">
+                            <img *ngIf="event.evidence_items.visit_type" title ="Visit Type" style="width: 25px" src="../../../assets/imgs/type.png">
+                            <img *ngIf="event.evidence_items.no_id_warning" title="No ID Warning" style="width: 25px" src="../../../assets/imgs/warning.png">
+                            <img *ngIf="event.evidence_items.pedestrian_photo" title="Pedestrian Photo" style="width: 25px" src="../../../assets/imgs/pedestrian_photo.png">
+                            <img *ngIf="event.evidence_items.access_denied_warning" title="Access Denied Warning" style="width: 25px" src="../../../assets/imgs/warning.png">
+                            <img *ngIf="event.evidence_items.vehicle_disk" title="Vehicle Disk" style="width: 25px" src="../../../assets/imgs/vehicle_disk.png">
+                            <img *ngIf="event.evidence_items.no_disk_out_warning" title="No Disk Out Warning" style="width: 25px" src="../../../assets/imgs/warning.png">
+                            <img *ngIf="event.evidence_items.picker_count" title="Picker Count" style="width: 25px" src="../../../assets/imgs/picker_count.png">
+                        </div>
+                        <div *ngIf="!event.evidence_items">
+                            <mat-chip-list>
+                                <mat-chip color="primary" selected>No evidence</mat-chip>
+                              </mat-chip-list>
+                        </div>
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Event Type">
+                        <th mat-header-cell *matHeaderCellDef> Event Type </th>
+                        <td mat-cell *matCellDef="let event">
+                          <div *ngIf="event.event_type">
+                              <mat-chip-list>
+                                  <mat-chip color="primary" selected>{{event.event_type}}</mat-chip>
+                              </mat-chip-list>
+                          </div>
+                          <div *ngIf="!event.event_type">
+                              <mat-chip-list>
+                                  <mat-chip color="warn" selected>No Result</mat-chip>
+                                </mat-chip-list>
+                          </div>
+                          </td>
+                      </ng-container>
+                      <ng-container matColumnDef="Event Result">
+                          <th mat-header-cell *matHeaderCellDef> Event Result </th>
+                          <td mat-cell *matCellDef="let event"> 
+                            <div *ngIf="event.policy_result">
+                                <mat-chip-list *ngIf="event.policy_result === 'granted'">
+                                    <mat-chip color="accent" selected>{{event.policy_result}}</mat-chip>
+                                  </mat-chip-list>
+                                  <mat-chip-list *ngIf="event.policy_result != 'granted'">
+                                      <mat-chip color="warn" selected>{{event.policy_result}}</mat-chip>
+                                    </mat-chip-list>
+                          </div>
+                          <div *ngIf="!event.policy_result">
+                              <mat-chip-list>
+                                  <mat-chip color="warn" selected> No Result</mat-chip>
+                                </mat-chip-list>
+                          </div> </td>
+                        </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                  <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay" (click)="eventDetail(myRowData)"></tr>
+            </table>
+            <mat-paginator #AllPaginator style="max-width:98%; width:98%" [pageSizeOptions]="[5,10,25]" [pageIndex]="0"  [pageSize]="10"></mat-paginator>
+          </div>
+    </div>
+</ion-content>

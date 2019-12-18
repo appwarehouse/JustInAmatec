@@ -1,0 +1,115 @@
+<ion-header>
+    <ion-toolbar color="dark tint">
+        <ion-buttons slot="start">
+            <ion-back-button color="primary"></ion-back-button>
+          </ion-buttons>
+        <ion-title>
+            <div text-center>
+                <label style="color: #FF8F13; font-family: 'Roboto', sans-serif">
+                    Editing {{selectedItem.display_name}}
+                </label>
+            </div>  
+        </ion-title>
+        <ion-buttons style="padding-right: 5px" slot=end>
+          <img style="width: 40px; border-radius: 50px; padding-right:5px" src="{{loggedPhoto}}"> 
+          <label style="color: #FF8F13; font-family: 'Roboto', sans-serif; font-weight: bold">{{loggedUsername}}</label>
+      </ion-buttons>
+      </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark tint">
+ <ion-card>
+    <ion-card-content color="dark tint" style="border: solid 2px #FF8F13">
+      <ion-item class="backer">
+        <ion-label style="color: #fcfff9">
+          Display Name:
+        </ion-label>
+        <ion-input style="color: #fcfff9" [(ngModel)]="displayNameString" value="{{selectedItem.display_name}}"></ion-input>
+      </ion-item>
+      <ion-item class="backer">
+        <ion-label style="color: #fcfff9">
+          Android ID:
+        </ion-label>
+        <ion-label style="color: #fcfff9" text-right>
+            {{selectedItem.android_id}}
+        </ion-label>
+      </ion-item>
+      <ion-item class="backer">
+          <ion-label style="color: #fcfff9">
+            API_Key:
+            </ion-label>
+            <ion-label style="color: #fcfff9" text-right>
+                {{selectedItem.api_key}}
+            </ion-label>
+      </ion-item>
+      <ion-item class="backer">
+          <ion-label style="color: #fcfff9">
+            Status:
+            </ion-label>
+            <ion-label style="color: #fcfff9" text-right>
+                {{selectedItem.status}}
+            </ion-label>
+      </ion-item>
+      <ion-item class="backer">
+          <ion-label style="color: #fcfff9">
+            Created At:
+            </ion-label>
+            <ion-label style="color: #fcfff9" text-right>
+                {{selectedItem.created_at_time}}
+            </ion-label>
+      </ion-item>
+      <ion-item class="backer">
+          <ion-label style="color: #fcfff9">
+            Updated At:
+            </ion-label>
+            <ion-label style="color: #fcfff9" text-right>
+                {{selectedItem.updated_at_time}}
+            </ion-label>
+      </ion-item>
+      <ion-item class="backer">
+          <ion-label style="color: #fcfff9">
+            Last Seen:
+            </ion-label>
+            <ion-label style="color: #fcfff9" text-right>
+                {{selectedItem.last_seen_time}}
+            </ion-label>
+      </ion-item>
+      <ion-item class="backer">
+          <ion-label style="color: #fcfff9">
+            Site:
+            </ion-label>
+            <ion-select (ionChange)="changeAllowedSites($event)" style="color: #fcfff9" [(ngModel)]="selectedSite">
+                <ion-select-option *ngFor="let site of sitesList; let siteIndex = index" value="{{site.display_name}}" [selected]="defaultSite == site.display_name">{{site.display_name}}</ion-select-option>
+              </ion-select>
+              
+      </ion-item>
+      <ion-item class="backer">
+          <ion-label style="color: #fcfff9">
+            Policy:
+            </ion-label>
+            <ion-select style="color: #fcfff9" [(ngModel)]="selectedPolicy">
+                <ion-select-option *ngFor="let allowedPolicy of allowedPolicies; let policyIndex = index" [selected]="defaultPolicy == allowedPolicy.display_name" value="{{allowedPolicy.display_name}}">{{allowedPolicy.display_name}}</ion-select-option>
+              </ion-select>
+      </ion-item>
+      <ion-item class="backer" *ngIf="selectedItem.last_location">
+          <ion-label style="color: #fcfff9">
+            Location:
+            </ion-label>
+            <ion-label style="color: #fcfff9" text-right>
+              <a href={{mapsRef}} target="_blank">Device Location</a>
+            </ion-label>
+      </ion-item>
+      <ion-item class="backer">
+          <ion-label style="color: #fcfff9">
+            Disable:
+            </ion-label>
+              <ion-toggle color="primary" [(ngModel)]="isActive" checked="isActive"></ion-toggle> 
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="saveChanges()">
+        <ion-icon color="dark tint" name="bookmark"></ion-icon> 
+     </ion-fab-button>
+  </ion-fab>
+</ion-content>

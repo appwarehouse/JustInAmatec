@@ -1,0 +1,66 @@
+<ion-header>
+    <ion-toolbar color="dark tint">
+        <ion-buttons slot="start">
+            <ion-back-button color="primary"></ion-back-button>
+          </ion-buttons>
+        <ion-title>
+            <div text-center>
+                <label style="color: #FF8F13; font-family: 'Roboto', sans-serif">
+                    Editing {{listItem.display_name}}
+                </label>
+            </div>  
+        </ion-title>
+        <ion-buttons style="padding-right: 5px" slot=end>
+          <img style="width: 40px; border-radius: 50px; padding-right:5px" src="{{loggedPhoto}}"> 
+          <label style="color: #FF8F13; font-family: 'Roboto', sans-serif; font-weight: bold">{{loggedUsername}}</label>
+      </ion-buttons>
+      </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark tint">
+    <ion-card>
+        <ion-card-content color="dark tint" style="border: solid 2px #FF8F13">
+          <ion-item class="backer">
+            <ion-label style="color: #fcfff9">
+              UID:
+            </ion-label>
+            <ion-label style="color: #fcfff9" text-right>
+              {{listItem.key}}
+          </ion-label>
+          </ion-item>
+          <ion-item class="backer">
+            <ion-label style="color: #fcfff9">
+              Title:
+            </ion-label>
+            <ion-input style="color: #fcfff9" [(ngModel)]="inputTitleString" value="{{listItem.display_name}}"></ion-input>
+          </ion-item>
+          <ion-item class="backer">
+              <ion-label style="color: #fcfff9">
+                Description:
+                </ion-label>
+                <ion-input style="color: #fcfff9" [(ngModel)]="inputDescriptionString" value="{{listItem.description}}"></ion-input>
+          </ion-item>
+          <ion-item class="backer">
+              <ion-label style="color: #fcfff9">
+                Type:
+                </ion-label>
+                <ion-select style="color: #fcfff9" [(ngModel)]="selectedType">
+                  <ion-select-option *ngFor="let typeList of typeLists; let siteIndex = index" value="{{typeList.type}}" [selected]="defaultType == typeList.type">{{typeList.type}}</ion-select-option>
+                </ion-select>
+          </ion-item>
+          <ion-item class="backer">
+              <ion-label style="color: #fcfff9">
+                Assigned Site:
+                </ion-label>
+                <ion-select style="color: #fcfff9" [(ngModel)]="selectedSite">
+                  <ion-select-option *ngFor="let site of sitesList; let siteIndex = index" value="{{site.display_name}}" [selected]="defaultSite == site.display_name">{{site.display_name}}</ion-select-option>
+                </ion-select>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+          <ion-fab-button (click)="saveEditedList()">
+              <ion-icon color="dark tint" name="bookmark"></ion-icon> 
+           </ion-fab-button>
+        </ion-fab>
+</ion-content>

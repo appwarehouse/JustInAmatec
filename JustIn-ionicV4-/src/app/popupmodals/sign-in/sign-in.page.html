@@ -1,0 +1,30 @@
+<mat-progress-bar *ngIf="loader" mode="indeterminate" color="primary"></mat-progress-bar>
+<div style="text-align: center;">
+    <h1 mat-dialog-title>Welcome Back!</h1>
+    <div mat-dialog-content>
+      <p>Enter Email and Password to Sign In...</p>
+      <form [formGroup]="signInForm" (ngSubmit)="signInForm.valid && emailSignIn()" noval>
+          <mat-form-field style="width: 204px">
+              <input type="email" id="email" formControlName="email" matInput [(ngModel)]="email" placeholder="Email...">
+              <mat-error *ngIf="signInForm.hasError('email', 'email') && !signInForm.hasError('required','email')">
+                  <strong>Please enter a valid email address</strong>
+                </mat-error>
+              <mat-error *ngIf="signInForm.hasError('required','email')">
+                  Email is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input type="{{type}}" id="password" formControlName="password" matInput [(ngModel)]="password" placeholder="Password...">
+                <mat-icon matSuffix (click)="setVisible()">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                <mat-error *ngIf="signInForm.hasError('required','password')">
+                    Password is <strong>required</strong>
+                  </mat-error>
+              </mat-form-field>
+      </form>
+    </div>
+    <div mat-dialog-actions style="padding-left: calc(50% - 39px); padding-top:10%">
+        <button color=primary mat-raised-button mat-primary (click)="emailSignIn()" [disabled]="!signInForm.valid"> <label style="color :white;">
+            Sign In
+      </label></button>
+      </div>
+</div>

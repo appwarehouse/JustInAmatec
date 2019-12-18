@@ -1,0 +1,33 @@
+{
+    "particles" : {
+        "size":{
+            "value": 3,
+            "anim":{
+                "speed": 8
+            }
+        },
+        "opacity":{
+            "value":0.75
+        },
+        "number":{
+            "value":120
+        },
+        "color":{
+            "value": "#FF8F13"
+        },
+        "shape":{
+            "type": "circle",
+            "image":{
+                "width":10,
+                "height": 10
+            }
+        }
+    },
+    "interactivity":{
+        "events":{
+            "onhover":{
+                "enable":false
+        }
+    }
+}
+}

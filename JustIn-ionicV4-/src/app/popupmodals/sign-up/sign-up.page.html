@@ -1,0 +1,42 @@
+<mat-progress-bar *ngIf="loader" mode="indeterminate" color="primary"></mat-progress-bar>
+<div style="text-align: center">
+    <h1 mat-dialog-title>Sign Up to Just IN</h1>
+    <div mat-dialog-content>
+      <p>Enter Email and Password to Sign Up to Just In...</p>
+      <form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && emailSignUp()" noval>
+          <mat-form-field style="width: 204px">
+              <input type="email" id="email" formControlName="email" matInput [(ngModel)]="email" placeholder="Email...">
+              <mat-error *ngIf="registerForm.hasError('email', 'email') && !registerForm.hasError('required','email')">
+                  <strong>Please enter a valid email address</strong>
+                </mat-error>
+              <mat-error *ngIf="registerForm.hasError('required','email')">
+                  Email is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input type="{{type}}" id="password" formControlName="password" matInput [(ngModel)]="password" (input)="onPasswordInput()" placeholder="Password...">
+                <mat-icon matSuffix (click)="setVisible()">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                <mat-error *ngIf="registerForm.hasError('required','password')">
+                    Password is <strong>required</strong>
+                  </mat-error>
+                  <mat-error *ngIf="registerForm.hasError('minlength', 'password') && !registerForm.hasError('required','password')">
+                      Password should be atleast <strong>8 characters long</strong>
+                    </mat-error>
+                    <mat-error *ngIf="registerForm.hasError('maxlength', 'password') && !registerForm.hasError('required','password')">
+                        Password should be at most <strong>30 characters long</strong>
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field style="width: 204px">
+                        <input type="password" id="confirmpassword" formControlName="confirmpassword" [(ngModel)]="confirmpassword" (input)="onPasswordInput()" matInput placeholder="Confirm Password...">
+                        <mat-error *ngIf="registerForm.hasError('required', 'confirmpassword')">Please confirm your password</mat-error>
+                        <mat-error *ngIf="registerForm.hasError('passwordMismatch')">Passwords don't match</mat-error>
+                            </mat-form-field>
+      </form>
+      
+    </div>
+    <div mat-dialog-actions style="padding-left: calc(50% - 39px); padding-top:10%">
+        <button color=primary mat-raised-button mat-primary (click)="emailSignUp()" [disabled]="!registerForm.valid"> <label style="color :white;">
+            Sign Up
+      </label></button>
+      </div>
+</div>

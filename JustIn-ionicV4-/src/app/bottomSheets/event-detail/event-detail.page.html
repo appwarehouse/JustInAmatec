@@ -1,0 +1,565 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>
+            <div text-center>
+                <label style="color: #222428; font-family: 'Roboto', sans-serif">
+                   Event Details
+                </label>
+            </div>
+          
+        </ion-title>
+      </ion-toolbar>
+  </ion-header>
+
+<div>
+    <ion-toolbar>
+        <ion-title>Summary</ion-title>
+      </ion-toolbar>
+  <ion-item *ngIf="eventItem.device">
+    <ion-label>
+      Device Name:
+    </ion-label>
+    <ion-label>
+      {{eventItem.device.display_name}}
+    </ion-label>
+  </ion-item>
+  <ion-item *ngIf="eventItem.device">
+      <ion-label>
+        Device Android ID:
+      </ion-label>
+      <ion-label>
+          {{eventItem.device.android_id}}
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="eventItem.site_summary">
+        <ion-label>
+          Site Name:
+        </ion-label>
+        <ion-label>
+            {{eventItem.site_summary.display_name}}
+        </ion-label>
+      </ion-item>
+      <ion-item *ngIf="eventItem.policy_result">
+          <ion-label>
+            Result:
+          </ion-label>
+          <ion-label>
+            {{eventItem.policy_result}}
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="eventItem.event_type">
+            <ion-label>
+              Event:
+            </ion-label>
+            <ion-label>
+                {{eventItem.event_type}}
+            </ion-label>
+          </ion-item>
+          <ion-item *ngIf="eventItem.created_at_time">
+              <ion-label>
+                Event Upload Time:
+              </ion-label>
+              <ion-label>
+                {{eventItem.created_at_time}}
+              </ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-label *ngIf="eventItem.device_time">
+                  Device Time
+                </ion-label>
+                <ion-label>
+                  {{eventItem.device_time}}
+                </ion-label>
+              </ion-item>
+
+              <div *ngIf="eventItem.evidence_items">
+                  <ion-toolbar *ngIf="eventItem.evidence_items.no_disk_out_warning">
+                      <ion-title>No Disk Out Warning</ion-title>
+                    </ion-toolbar>
+                    <ion-item *ngIf="eventItem.evidence_items.no_id_warning">
+                        <ion-label>
+                            <p>Warning: {{eventItem.evidence_items.no_disk_out_warning.message}}</p>
+                            <p>Result: {{eventItem.evidence_items.no_disk_out_warning.result}}</p>
+                          </ion-label>
+                    </ion-item>
+              </div>
+              
+              
+              <div *ngIf="eventItem.evidence_items">
+                  <ion-toolbar *ngIf="eventItem.evidence_items.no_id_warning">
+                      <ion-title>No ID Warning</ion-title>
+                    </ion-toolbar>
+                    <ion-item *ngIf="eventItem.evidence_items.no_id_warning">
+                        <ion-label>
+                            <p>Warning: {{eventItem.evidence_items.no_id_warning.message}}</p>
+                            <p>Result: {{eventItem.evidence_items.no_id_warning.result}}</p>
+                          </ion-label>
+                    </ion-item>
+              </div>
+
+              <div *ngIf="eventItem.evidence_items">
+                  <ion-toolbar *ngIf="eventItem.evidence_items.no_card_warning">
+                      <ion-title>No Card Warning</ion-title>
+                    </ion-toolbar>
+                    <ion-item>
+                      <ion-label *ngIf="eventItem.evidence_items.no_card_warning">
+                        <p><strong>Warning:</strong> {{eventItem.evidence_items.no_card_warning.message}}</p>
+                        <p><strong>Result:</strong> {{eventItem.evidence_items.no_card_warning.result}}</p>
+                      </ion-label>
+                    </ion-item>
+              </div>
+
+              <div *ngIf="eventItem.evidence_items">
+                  <ion-toolbar *ngIf="eventItem.evidence_items.pedestrian_unit_number_visit">
+                    <ion-title>Pedestrian Unit Number Visit</ion-title>
+                  </ion-toolbar>
+                <ion-item *ngIf="eventItem.evidence_items.pedestrian_unit_number_visit">
+                    <ion-label>
+                      Selection:
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.pedestrian_unit_number_visit.selection}}
+                    </ion-label>
+                    <ion-label>
+                     Type:
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.pedestrian_unit_number_visit.type}}
+                    </ion-label>
+                  </ion-item>
+                </div>
+
+                <div *ngIf="eventItem.evidence_items">
+                    <ion-toolbar *ngIf="eventItem.evidence_items.pedestrian_unit_number_visit">
+                      <ion-title>Pedestrian Unit Number Visit</ion-title>
+                    </ion-toolbar>
+                  <ion-item *ngIf="eventItem.evidence_items.pedestrian_unit_number_visit">
+                      <ion-label>
+                        Selection:
+                      </ion-label>
+                      <ion-label>
+                        {{eventItem.evidence_items.pedestrian_unit_number_visit.selection}}
+                      </ion-label>
+                      <ion-label>
+                       Type:
+                      </ion-label>
+                      <ion-label>
+                        {{eventItem.evidence_items.pedestrian_unit_number_visit.type}}
+                      </ion-label>
+					  </ion-item>
+                  </div>
+
+                <div *ngIf="eventItem.evidence_items">
+                  <ion-toolbar *ngIf="eventItem.evidence_items.pedestrian_card_number">
+                      <ion-title>Pedestrian Card Number</ion-title>
+                    </ion-toolbar>
+                  <ion-item *ngIf="eventItem.evidence_items.pedestrian_card_number">
+                    <label>
+                      Selection:
+                    </label>
+                    <label>
+                      {{eventItem.evidence_items.pedestrian_card_number.selection}}
+                    </label>
+                    <label>
+                        Type:
+                      </label>
+                      <label>
+                        {{eventItem.evidence_items.pedestrian_card_number.type}}
+                      </label>
+                    </ion-item>
+              </div>
+
+                <div *ngIf="eventItem.evidence_items">
+                  <ion-toolbar *ngIf="eventItem.evidence_items.id_card">
+                    <ion-title>ID Card</ion-title>
+                  </ion-toolbar>
+                  <ion-item *ngIf="eventItem.evidence_items.id_card">
+                    <ion-label>
+                      Created At
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.id_card.created_at}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.id_card">
+                    <ion-label>
+                      Device Time
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.id_card.device_time}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.id_card">
+                    <ion-label>
+                      Gender
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.id_card.sex}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.id_card">
+                    <ion-label>
+                      ID Number
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.id_card.id_number}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.id_card">
+                    <ion-label>
+                      ID Type
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.id_card.type}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.id_card">
+                    <ion-label>
+                      Surname
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.id_card.surname}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.id_card">
+                    <ion-label>
+                      Nationality
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.id_card.nationality}}
+                    </ion-label>
+                  </ion-item>
+                </div>
+
+                <div *ngIf="eventItem.evidence_items">
+                  <ion-toolbar *ngIf="eventItem.evidence_items.access_denied_warning">
+                      <ion-title>Access Denied Warning</ion-title>
+                    </ion-toolbar>
+                    <ion-item *ngIf="eventItem.evidence_items.access_denied_warning">
+                      <ion-label>
+                        <p><strong>Explanation:</strong> {{eventItem.evidence_items.access_denied_warning.messageText}}</p>
+                        <p><strong>Message:</strong> {{eventItem.evidence_items.access_denied_warning.message}}</p>
+                        <p><strong>Result:</strong> {{eventItem.evidence_items.access_denied_warning.result}}</p>
+                      </ion-label>
+                    </ion-item>
+              </div>
+
+                <div *ngIf="eventItem.evidence_items">
+                  <ion-toolbar *ngIf="eventItem.evidence_items.driver_card">
+                    <ion-title>Driver Card</ion-title>
+                  </ion-toolbar>
+                  <ion-item *ngIf="eventItem.evidence_items.driver_card">
+                    <ion-label>
+                      Created At
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.driver_card.created_at}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.driver_card">
+                    <ion-label>
+                      Device Time
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.driver_card.device_time}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.driver_card">
+                    <ion-label>
+                      Gender
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.driver_card.gender}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.driver_card">
+                    <ion-label>
+                      ID Number
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.driver_card.id_no}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.driver_card">
+                    <ion-label>
+                      ID Type
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.driver_card.id_type}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.driver_card">
+                    <ion-label>
+                      Initials
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.driver_card.initials}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.driver_card">
+                    <ion-label>
+                      Issued Place
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.driver_card.issued_place}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.driver_card">
+                    <ion-label>
+                      Last Name
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.driver_card.lastname}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.driver_card">
+                    <ion-label>
+                      License Issue No
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.driver_card.license_issue_no}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.driver_card">
+                    <ion-label>
+                      License No
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.driver_card.license_no}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.driver_card">
+                    <ion-label>
+                      Restrictions
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.driver_card.restrictions}}
+                    </ion-label>
+                  </ion-item>
+                  <ion-item *ngIf="eventItem.evidence_items.driver_card">
+                    <ion-label>
+                      SADC Country
+                    </ion-label>
+                    <ion-label>
+                      {{eventItem.evidence_items.driver_card.sadc_country}}
+                    </ion-label>
+                  </ion-item>
+                </div>
+
+                                      <div *ngIf="eventItem.evidence_items">
+                                        <ion-toolbar *ngIf="eventItem.evidence_items.driver_card_photo">
+                                          <ion-title>Driver Card Photo</ion-title>
+                                        </ion-toolbar>
+                                        <ion-item *ngIf="eventItem.evidence_items.driver_card_photo">
+                                          <img style="max-height: 150px;max-width: 150px" src="{{eventItem.evidence_items.driver_card_photo.payload}}">
+                                        </ion-item>
+                                      
+                                        <ion-toolbar *ngIf="eventItem.evidence_items.driver_photo">
+                                          <ion-title>Driver Photo</ion-title>
+                                        </ion-toolbar>
+                                        <ion-item *ngIf="eventItem.evidence_items.driver_photo">
+                                          <img style="max-height: 150px;max-width: 150px" src="{{eventItem.evidence_items.driver_photo.payload}}">
+                                        </ion-item>
+                                      </div>
+
+                                      <div *ngIf="eventItem.evidence_items">
+                                        <ion-toolbar *ngIf="eventItem.evidence_items.finger_signed">
+                                          <ion-title>Finger Signature</ion-title>
+                                        </ion-toolbar>
+                                        <ion-item *ngIf="eventItem.evidence_items.finger_signed">
+                                          <img style="max-height: 150px;max-width: 150px" src="{{eventItem.evidence_items.finger_signed.payload}}">
+                                        </ion-item>
+                                      </div>
+                                   
+                                      <div *ngIf="eventItem.evidence_items">
+                                        <ion-toolbar *ngIf="eventItem.evidence_items.location">
+                                          <ion-title>Location</ion-title>
+                                        </ion-toolbar>
+                                        <ion-item *ngIf="eventItem.evidence_items.location">
+                                          <ion-button>
+                                            <a style="color: #fcfff9" href="{{mapsRef}}" target="_blank">Location</a>
+                                          </ion-button>
+                                        </ion-item>
+                                      </div>
+
+                                      <div *ngIf="eventItem.evidence_items">
+                                          <ion-toolbar *ngIf="eventItem.evidence_items.picker_count">
+                                              <ion-title>Picker Count</ion-title>
+                                            </ion-toolbar>
+                                          <ion-item *ngIf="eventItem.evidence_items.picker_count">
+                                            <ion-label>
+                                              Selection:
+                                            </ion-label>
+                                            <ion-label>
+                                              {{eventItem.evidence_items.picker_count.selection}}
+                                            </ion-label>
+                                            </ion-item>
+                                      </div>
+
+                                         <!--  <ion-item>
+                                              <ion-label>
+                                                1
+                                              </ion-label>
+                                              <ion-label>
+                                                Persons in Vehicle
+                                              </ion-label>
+                                            </ion-item> -->
+
+                                            <div *ngIf="eventItem.evidence_items">
+                                                <ion-toolbar *ngIf="eventItem.evidence_items.pedestrian_photo">
+                                                    <ion-title>Pedestrian Photo</ion-title>
+                                                  </ion-toolbar>
+                                                  <ion-item *ngIf="eventItem.evidence_items.pedestrian_photo">
+                                                    <ion-label>
+                                                      Pedestrian Photo:
+                                                    </ion-label>
+                                                    <ion-label>
+                                                      <img style="max-height: 150px;max-width: 150px" src="{{eventItem.evidence_items.pedestrian_photo.payload}}">
+                                                    </ion-label>
+                                                  </ion-item>
+                                            </div>
+                                            
+                                            <div *ngIf="eventItem.evidence_items">
+                                                <ion-toolbar *ngIf="eventItem.evidence_items.unit_number_visit">
+                                                    <ion-title>Unit Number Visit</ion-title>
+                                                  </ion-toolbar>
+                                                <ion-item *ngIf="eventItem.evidence_items.unit_number_visit">
+                                                    <ion-label>
+                                                      Selection
+                                                    </ion-label>
+                                                    <ion-label>
+                                                      {{eventItem.evidence_items.unit_number_visit.selection}}
+                                                    </ion-label>
+                                                  </ion-item>
+                                                  <ion-item *ngIf="eventItem.evidence_items.unit_number_visit">
+                                                      <ion-label>
+                                                        Type
+                                                      </ion-label>
+                                                      <ion-label>
+                                                          {{eventItem.evidence_items.unit_number_visit.type}}
+                                                      </ion-label>
+                                                    </ion-item>
+    
+                                            </div>
+                                            
+                                                <div *ngIf="eventItem.evidence_items">
+                                                  <ion-toolbar *ngIf="eventItem.evidence_items.vehicle_disk">
+                                                    <ion-title>Vehicle Disk</ion-title>
+                                                  </ion-toolbar>
+                                                  <ion-item *ngIf="eventItem.evidence_items.vehicle_disk">
+                                                    <ion-label>
+                                                      Colour:
+                                                    </ion-label>
+                                                    <ion-label>
+                                                      {{eventItem.evidence_items.vehicle_disk.colour}}
+                                                    </ion-label>
+                                                  </ion-item>
+                                                  <ion-item *ngIf="eventItem.evidence_items.vehicle_disk">
+                                                    <ion-label>
+                                                      Created At
+                                                    </ion-label>
+                                                    <ion-label>
+                                                      {{eventItem.evidence_items.vehicle_disk.created_at}}
+                                                    </ion-label>
+                                                  </ion-item>
+                                                  <ion-item *ngIf="eventItem.evidence_items.vehicle_disk">
+                                                    <ion-label>
+                                                      Date Of Expiry:
+                                                    </ion-label>
+                                                    <ion-label>
+                                                      {{eventItem.evidence_items.vehicle_disk.date_of_expiry}}
+                                                    </ion-label>
+                                                  </ion-item>
+                                                  <ion-item *ngIf="eventItem.evidence_items.vehicle_disk">
+                                                    <ion-label>
+                                                      Description:
+                                                    </ion-label>
+                                                    <ion-label>
+                                                      {{eventItem.evidence_items.vehicle_disk.description}}
+                                                    </ion-label>
+                                                  </ion-item>
+                                                  <ion-item *ngIf="eventItem.evidence_items.vehicle_disk">
+                                                    <ion-label>
+                                                      Device Time
+                                                    </ion-label>
+                                                    <ion-label>
+                                                      {{eventItem.evidence_items.vehicle_disk.device_time}}
+                                                    </ion-label>
+                                                  </ion-item>
+                                                  <ion-item *ngIf="eventItem.evidence_items.vehicle_disk">
+                                                    <ion-label>
+                                                      Engine No:
+                                                    </ion-label>
+                                                    <ion-label>
+                                                      {{eventItem.evidence_items.vehicle_disk.engine_no}}
+                                                    </ion-label>
+                                                  </ion-item>
+                                                  <ion-item *ngIf="eventItem.evidence_items.vehicle_disk">
+                                                    <ion-label>
+                                                      License Disk No:
+                                                    </ion-label>
+                                                    <ion-label>
+                                                      {{eventItem.evidence_items.vehicle_disk.licence_disk_no}}
+                                                    </ion-label>
+                                                  </ion-item>
+                                                  <ion-item *ngIf="eventItem.evidence_items.vehicle_disk">
+                                                    <ion-label>
+                                                      Make:
+                                                    </ion-label>
+                                                    <ion-label>
+                                                      {{eventItem.evidence_items.vehicle_disk.make}}
+                                                    </ion-label>
+                                                  </ion-item>
+                                                  <ion-item *ngIf="eventItem.evidence_items.vehicle_disk">
+                                                    <ion-label>
+                                                      Model:
+                                                    </ion-label>
+                                                    <ion-label>
+                                                      {{eventItem.evidence_items.vehicle_disk.model}}
+                                                    </ion-label>
+                                                  </ion-item>
+                                                  <ion-item *ngIf="eventItem.evidence_items.vehicle_disk">
+                                                    <ion-label>
+                                                      Vehicle Reg:
+                                                    </ion-label>
+                                                    <ion-label>
+                                                      {{eventItem.evidence_items.vehicle_disk.vehicle_reg}}
+                                                    </ion-label>
+                                                  </ion-item>
+                                                  <ion-item *ngIf="eventItem.evidence_items.vehicle_disk">
+                                                    <ion-label>
+                                                      VIN:
+                                                    </ion-label>
+                                                    <ion-label>
+                                                      {{eventItem.evidence_items.vehicle_disk.vin}}
+                                                    </ion-label>
+                                                  </ion-item>
+                                                </div>
+                                               
+                                                <div *ngIf="eventItem.evidence_items">
+                                                  <ion-toolbar *ngIf="eventItem.evidence_items.visit_type">
+                                                    <ion-title>Visit Type</ion-title>
+                                                  </ion-toolbar>
+                                                  <ion-item *ngIf="eventItem.evidence_items.visit_type">
+                                                    <ion-label>
+                                                      Selection:
+                                                    </ion-label>
+                                                    <ion-label>
+                                                      {{eventItem.evidence_items.visit_type.selection}}
+                                                    </ion-label>
+                                                  </ion-item>
+                                                  <ion-item *ngIf="eventItem.evidence_items.visit_type">
+                                                    <ion-label>
+                                                      Type:
+                                                    </ion-label>
+                                                    <ion-label>
+                                                      {{eventItem.evidence_items.visit_type.type}}
+                                                    </ion-label>
+                                                  </ion-item>
+                                                </div>
+                
+                                                      
+</div>
+
+    
+

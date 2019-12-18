@@ -1,0 +1,50 @@
+<ion-header>
+    <ion-toolbar color="dark tint">
+            <ion-buttons slot="start">
+                    <ion-menu-button color="primary"></ion-menu-button>
+                  </ion-buttons>
+      <ion-title>
+            <!-- <div style="float: left">
+                    <ion-icon name="menu" (click)="splitView()" style="font-size: 30px" color="primary"></ion-icon>
+              </div> -->
+          <div text-center>
+              <label style="color: #FF8F13; font-family: 'Roboto', sans-serif">
+                  Policies
+              </label>
+          </div>
+        
+      </ion-title>
+      <ion-buttons style="padding-right: 5px" slot=end>
+        <img style="width: 40px; border-radius: 50px; padding-right:5px" src="{{loggedPhoto}}"> 
+        <label style="color: #FF8F13; font-family: 'Roboto', sans-serif; font-weight: bold">{{loggedUsername}}</label>
+    </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content  color="dark tint">
+            <ion-searchbar style="width: 100%; padding-left: 25%;padding-right: 25%; padding-top: 2%" placeholder="Policy..." color="primary" [(ngModel)]="searchTerm" (ionChange)="setFilteredPolicy()"></ion-searchbar>
+                      <ion-list lines="full" style="background-color: #222428">
+                     <ion-item class="backer" *ngFor="let policy of policiesList; let policyIndex = index" (click)="policyDetail(policyIndex)">
+                        <!-- <ion-icon item-start>
+                            <img style="height: 60px;     
+                            border-radius: 50%;
+                            box-shadow: 0 0 20px #BFD8BD;
+                            align-content: center;" src="../../assets/imgs/policiesIco.png"/>
+                          </ion-icon> -->
+                        <ion-label>
+                            <h2 style="color: #FF8F13; font-size: 25px; font-weight: bold;">{{policy.display_name}}</h2>
+                             <p style="color: #fcfff9">Description: {{policy.description}}</p>
+                             <p style="color: #fcfff9">Last Modified: {{policy.updated_at_time}}</p>
+                         </ion-label>      
+                         <ion-button color = "primary" item-right (click)="deletePolicy(policyIndex);$event.stopPropagation();">
+                            <ion-icon name="trash">
+                            </ion-icon>
+                          </ion-button> 
+                      </ion-item>
+                  </ion-list>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="addPolicy()">
+            <ion-icon color="light" name="add"></ion-icon> 
+         </ion-fab-button>
+      </ion-fab>
+</ion-content>

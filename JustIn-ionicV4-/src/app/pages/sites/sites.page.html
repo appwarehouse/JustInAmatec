@@ -1,0 +1,89 @@
+<ion-header>
+    <ion-toolbar color="dark tint">
+        <ion-buttons slot="start">
+            <ion-menu-button color="primary"></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            <!--  <div style="float: left">
+                <ion-icon name="menu" (click)="splitView()" style="font-size: 30px" color="primary">
+
+                </ion-icon>
+          </div> -->
+            <div text-center>
+                <label style="color: #FF8F13; font-family: 'Roboto', sans-serif">
+                    Sites
+                </label>
+            </div>
+        </ion-title>
+        <ion-buttons style="padding-right: 5px" slot=end>
+            <img style="width: 40px; border-radius: 50px; padding-right:5px" src="{{loggedPhoto}}"> 
+            <label style="color: #FF8F13; font-family: 'Roboto', sans-serif; font-weight: bold">{{loggedUsername}}</label>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark tint">
+      <ion-searchbar style="width: 100%; padding-left: 25%;padding-right: 25%; padding-top: 2%" placeholder="Site..." color="primary" [(ngModel)]="searchTerm" (ionChange)="setFilteredSites()"></ion-searchbar>
+      
+  <ion-list style="background-color: #222428">
+  <ion-card class="cardsFade" *ngFor="let site of siteList; let siteIndex = index" style="border-radius: 10px;display: inline-block;width: 48%;">
+    <ion-card-header style="background-color: #FF8F13">
+        <div text-center>
+            <label style="color: #222428; font-size: 30px">
+                {{site.display_name}}
+            </label>
+            <ion-button style="float: right" (click)="presentPop($event, siteIndex)">
+                <ion-icon name="more" color="dark tint"></ion-icon>
+            </ion-button>
+       </div>
+  </ion-card-header>
+    <ion-card-content style="background-color: #222428">
+      <ion-item class="backer">
+          <label style="color: #fcfff9">
+              {{site.description}}
+          </label>
+      </ion-item>
+      <ion-item class="backer">
+          <label style="color: #fcfff9;font-weight: bold">
+              Number of devices: 
+          </label>
+          <label style="color: #fcfff9">
+              {{site.stats.device_count}}
+          </label>
+          
+        </ion-item>
+        <ion-item class="backer">
+            <label style="color: #fcfff9;font-weight: bold">
+                Contact person: 
+            </label>
+            <label style="color: #fcfff9">
+                {{site.contact_person.name}}
+            </label>
+            
+          </ion-item>
+          <ion-item class="backer">
+              <label style="color: #fcfff9;font-weight: bold">
+                  Contact number: 
+              </label>
+              <label style="color: #fcfff9">
+                  {{site.contact_person.number}}
+              </label>
+             
+            </ion-item>
+            <ion-item class="backer">
+              <label style="color: #fcfff9;font-weight: bold">
+                  Default policy: 
+              </label>
+              <label style="color: #fcfff9">
+                  {{site.default_policy.display_name}}
+              </label>
+              </ion-item>
+    </ion-card-content>
+</ion-card>
+</ion-list>
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addSite()">
+        <ion-icon color="light" name="add"></ion-icon> 
+     </ion-fab-button>
+  </ion-fab>
+</ion-content>

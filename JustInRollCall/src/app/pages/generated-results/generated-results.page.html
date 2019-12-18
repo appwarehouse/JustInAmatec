@@ -1,0 +1,224 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title color="light">{{sitename}} Results</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-toolbar>
+    <ion-segment (ionChange)="segmentChanged($event)" value="all" scrollable>
+      <ion-segment-button value="all">
+        <ion-icon name="list"></ion-icon>
+        <ion-label>All Results</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="vehicle">
+        <ion-icon name="car"></ion-icon>
+        <ion-label>Vehicles</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="pedestrian">
+        <ion-icon name="body"></ion-icon>
+        <ion-label>Pedestrians</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+  <!-- <div class="container animated fadeIn" style="margin-top: 2%; margin-bottom: 2%"
+    *ngIf="tempVehicleList.length === 0 && tempPedestrianList.length === 0 && isData.length > 0">
+    <div class="card bg-gradient-warning shadow-lg border-0">
+      <div class="p-5">
+        <div class="row align-items-center">
+          <h3 class="text-white">No Persons.</h3>
+          <small class="text-white" style="font-weight: bold">Nobody is on the premises at the moment.</small>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div>
+        <ion-item>
+            <ion-label>Filter Fields</ion-label>
+            <ion-select multiple="true" cancelText="Cancel" okText="Set" [(ngModel)]="selectedFilterItems">
+              <ion-select-option value="gender">Gender</ion-select-option>
+              <ion-select-option value="timein">Time In</ion-select-option>
+              <ion-select-option value="company">Company</ion-select-option>
+              <ion-select-option value="license">License</ion-select-option>
+            </ion-select>
+          </ion-item>
+    </div>
+
+  <div *ngIf="allShow" class="animated fadeIn">
+      <div class="container animated fadeIn" style="margin-top: 2%; margin-bottom: 2%"  *ngIf="tempAllList.length === 0">
+      <div class="card bg-gradient-warning shadow-lg border-0">
+        <div class="p-5">
+          <div class="row align-items-center">
+            <h3 class="text-white">No Persons.</h3>
+            <small class="text-white" style="font-weight: bold">Nobody is on the premises at the moment.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <ion-searchbar *ngIf="tempAllList.length > 0" color="primary" placeholder="Search All By Name" (ionChange)="searchAll()" [(ngModel)]="searchTerm"></ion-searchbar>
+    <ion-list lines="none" *ngIf="tempAllList.length > 0" >
+      <ion-list-header>
+        <ion-label style="font-size: 25px" color="medium">All Results</ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let item of allList" (click)="resultDetail()" lines="inset">
+        <ion-thumbnail *ngIf="item.evidence_items.driver_card_photo" style="margin: 2%">
+          <img src="{{item.evidence_items.driver_card_photo.payload}}">
+        </ion-thumbnail>
+        <ion-thumbnail *ngIf="item.evidence_items.driver_photo" style="margin: 2%">
+          <img src="{{item.evidence_items.driver_photo.payload}}">
+        </ion-thumbnail>
+        <ion-label *ngIf="item.evidence_items.driver_card">
+          <h1 style="color: #D95D39">{{item.evidence_items.driver_card.lastname}}
+            {{item.evidence_items.driver_card.initials}}</h1>
+          <p *ngIf="selectedFilterItems.includes('gender')">Gender: {{item.evidence_items.driver_card.gender}}</p>
+          <p *ngIf="selectedFilterItems.includes('license')">Licence No: {{item.evidence_items.vehicle_disk.licence_no}}</p>
+          <p *ngIf="selectedFilterItems.includes('timein')">Time In: {{item.created_at_time}}</p>
+          <p *ngIf="selectedFilterItems.includes('company')">Company: {{item.company}}</p>
+          <p *ngIf="item.evidence_items.picker_count">People In Vehicle: {{item.evidence_items.picker_count.selection}}</p>
+          <p *ngIf="!item.evidence_items.picker_count">People In Vehicle: 1 </p>
+        </ion-label>
+        <ion-label *ngIf="!item.evidence_items.driver_card && !item.evidence_items.id_card">
+            <h1 style="color: #D95D39">No Driver Details</h1>
+            <!--                     <p>Vehicle Licence No: {{item.evidence_items.vehicle_disk.licence_no}}</p>
+                         -->
+            <p *ngIf="selectedFilterItems.includes('license')">Licence No: {{item.evidence_items.vehicle_disk.licence_no}}</p>
+            <p *ngIf="selectedFilterItems.includes('timein')">Time In: {{item.created_at_time}}</p>
+            <p *ngIf="selectedFilterItems.includes('company')">Company: {{item.company}}</p>
+            <p *ngIf="item.evidence_items.picker_count">People In Vehicle: {{item.evidence_items.picker_count.selection}}</p>
+            <p *ngIf="!item.evidence_items.picker_count">People In Vehicle: 1 </p>
+            <!-- <h1 *ngIf="item.evidence_items.no_card_warning">No Card</h1>
+                                            <p>Licence No: {{item.evidence_items.vehicle_disk.licence_no}}</p>
+                                            <p>Time In {{item.created_at_time}}</p> -->
+        </ion-label>
+        <ion-label *ngIf="!item.evidence_items.vehicle_disk && item.evidence_items.id_card">
+            <h1 style="color: #D95D39">No Pedestrian Name</h1>
+            <p>ID Number: {{item.evidence_items.id_card.id_number}}</p>
+            <p>Gender: {{item.evidence_items.id_card.sex}}</p>
+            <p>Time In: {{item.created_at_time}}</p>
+            <p>Company: {{item.company}}</p>
+        </ion-label>
+        <ion-badge slot="end" *ngIf="item.evidence_items.driver_photo" color="tertiary">
+          <ion-icon name="body"></ion-icon>
+        </ion-badge>
+        <ion-badge slot="end" *ngIf="item.evidence_items.driver_card_photo" color="tertiary">
+          <ion-icon name="car"></ion-icon>
+        </ion-badge>
+        <ion-badge slot="end" *ngIf="item.evidence_items.id_card" color="tertiary">
+          <ion-icon name="car"></ion-icon>
+        </ion-badge>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div *ngIf="vehicleShow" class="animated fadeIn">
+    <div class="container animated fadeIn" style="margin-top: 2%; margin-bottom: 2%"
+      *ngIf="tempVehicleList.length === 0">
+      <div class="card bg-gradient-warning shadow-lg border-0">
+        <div class="p-5">
+          <div class="row align-items-center">
+            <h3 class="text-white">No Vehicles.</h3>
+            <small class="text-white" style="font-weight: bold">No vehicles came in today.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ion-searchbar *ngIf="tempVehicleList.length > 0" color="primary" placeholder="Search By Name" (ionChange)="searchVehicle()" [(ngModel)]="searchVehicleTerm"></ion-searchbar>
+    <ion-list lines="none" *ngIf="tempVehicleList.length > 0">
+      <ion-list-header>
+        <ion-label style="font-size: 25px" color="medium">Vehicles Still Present</ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let item of vehicleresultList" (click)="resultDetail()">
+
+
+        <ion-thumbnail *ngIf="item.evidence_items.driver_card_photo" style="margin: 2%">
+          <img src="{{item.evidence_items.driver_card_photo.payload}}">
+        </ion-thumbnail>
+        <ion-thumbnail *ngIf="item.evidence_items.driver_photo" style="margin: 2%">
+          <img src="{{item.evidence_items.driver_photo.payload}}">
+        </ion-thumbnail>
+        <ion-label *ngIf="item.evidence_items.driver_card">
+          <h1 style="color: #D95D39">{{item.evidence_items.driver_card.lastname}}
+            {{item.evidence_items.driver_card.initials}}</h1>
+          <p *ngIf="selectedFilterItems.includes('gender')">Gender: {{item.evidence_items.driver_card.gender}}</p>
+          <p *ngIf="selectedFilterItems.includes('license')">Licence No: {{item.evidence_items.vehicle_disk.licence_no}}</p>
+          <p *ngIf="selectedFilterItems.includes('timein')">Time In: {{item.created_at_time}}</p>
+          <p *ngIf="selectedFilterItems.includes('company')">Company: {{item.company}}</p>
+          <p *ngIf="item.evidence_items.picker_count">People In Vehicle: {{item.evidence_items.picker_count.selection}}</p>
+          <p *ngIf="!item.evidence_items.picker_count">People In Vehicle: 1 </p>
+
+        </ion-label>
+        <ion-label *ngIf="!item.evidence_items.driver_card">
+          <h1 style="color: #D95D39">No Driver Details</h1>
+          <p *ngIf="selectedFilterItems.includes('license')">Vehicle Licence No: {{item.evidence_items.vehicle_disk.licence_no}}</p>
+          <p *ngIf="selectedFilterItems.includes('timein')">Time In: {{item.created_at_time}}</p>
+          <p *ngIf="selectedFilterItems.includes('company')">Company: {{item.company}}</p>
+          <p *ngIf="item.evidence_items.picker_count">People In Vehicle: {{item.evidence_items.picker_count.selection}}</p>
+          <p *ngIf="!item.evidence_items.picker_count">People In Vehicle: 1 </p>
+
+          <!-- <h1 *ngIf="item.evidence_items.no_card_warning">No Card</h1>
+                    <p>Licence No: {{item.evidence_items.vehicle_disk.licence_no}}</p>
+                    <p>Time In {{item.created_at_time}}</p> -->
+        </ion-label>
+        <ion-badge slot="end" *ngIf="item.evidence_items.driver_photo" color="tertiary">
+          <ion-icon name="body"></ion-icon>
+        </ion-badge>
+        <ion-badge slot="end" *ngIf="item.evidence_items.driver_card_photo" color="tertiary">
+          <ion-icon name="car"></ion-icon>
+        </ion-badge>
+
+
+
+        <!-- <ion-label class="ion-text-wrap">
+                  <h1 style="color: #D95D39">{{item.evidence_items.vehicle_disk.vehicle_reg}}</h1>
+                  <p><strong>Colour:</strong> {{item.evidence_items.vehicle_disk.colour}}</p>
+                  <p><strong>Vehicle Reg:</strong> {{item.evidence_items.vehicle_disk.vehicle_reg}}</p>
+                  <p><strong>Vehicle Description:</strong> {{item.evidence_items.vehicle_disk.description}}</p>
+                  <p><strong>Time In:</strong> {{item.created_at_time}}</p>
+               </ion-label>
+              
+               <ion-badge slot="end" *ngIf="item.evidence_items.driver_photo" color="tertiary"><ion-icon name="body"></ion-icon></ion-badge>
+               <ion-badge slot="end" *ngIf="item.evidence_items.driver_card_photo" color="tertiary"><ion-icon name="car"></ion-icon></ion-badge> -->
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div *ngIf="pedestrianShow" class="animated fadeIn">
+    <div class="container animated fadeIn" style="margin-top: 2%; margin-bottom: 2%"
+      *ngIf="tempPedestrianList.length === 0">
+      <div class="card bg-gradient-warning shadow-lg border-0">
+        <div class="p-5">
+          <div class="row align-items-center">
+            <h3 class="text-white">No Pedestrians.</h3>
+            <small class="text-white" style="font-weight: bold">No pedestrians came in today.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ion-searchbar *ngIf="tempPedestrianList.length > 0" color="primary" placeholder="Search All By ID" (ionChange)="searchID()" [(ngModel)]="searchIDTerm">
+    </ion-searchbar>
+    <ion-list lines="none" *ngIf="tempPedestrianList.length > 0">
+      <ion-list-header>
+        <ion-label style="font-size: 25px" color="medium">Pedestrians Still Present</ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let item of pedestrianresultList" (click)="resultDetail()">
+        <!-- <ion-thumbnail *ngIf="item.evidence_items.id_card_raw" style="margin: 2%">
+                    <img src="{{item.evidence_items.id_card_raw.payload}}">
+                </ion-thumbnail> -->
+        <ion-label *ngIf="item.evidence_items.id_card">
+          <h1 style="color: #D95D39">No Pedestrian Name</h1>
+          <p>ID Number: {{item.evidence_items.id_card.id_number}}</p>
+          <p>Gender: {{item.evidence_items.id_card.sex}}</p>
+          <p>Time In: {{item.created_at_time}}</p>
+          <p>Company: {{item.company}}</p>
+        </ion-label>
+        <ion-badge slot="end" *ngIf="item.evidence_items.id_card" color="tertiary">
+          <ion-icon name="car"></ion-icon>
+        </ion-badge>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

@@ -1,0 +1,92 @@
+<div style="height: 100%; background-color: #222428" id="particles-js">
+        <mat-progress-bar *ngIf="loader" mode="indeterminate" color="primary"></mat-progress-bar>
+    <div class="user_card">
+        <div class="d-flex justify-content-center">
+            <div class="brand_logo_container">
+                <img style="height: 150px; width:150px" src="../../assets/imgs/JustInByAmatec.png" class="brand_logo" alt="Logo">
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <form [formGroup]="signInForm" (ngSubmit)="signInForm.valid && emailSignIn()" noval text-center>
+                <mat-form-field  style="width: 204px">
+                    <input type="email" id="email" formControlName="email" matInput [(ngModel)]="email" placeholder="Email...">
+                    <mat-error *ngIf="signInForm.hasError('email', 'email') && !signInForm.hasError('required','email')">
+                        <strong>Please enter a valid email address</strong>
+                      </mat-error>
+                    <mat-error *ngIf="signInForm.hasError('required','email')">
+                        Email is <strong>required</strong>
+                      </mat-error>
+                  </mat-form-field>
+                  <mat-form-field >
+                      <input type="{{type}}" id="password" formControlName="password" matInput [(ngModel)]="password" placeholder="Password...">
+                      <mat-icon matSuffix (click)="setVisible()">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                      <mat-error *ngIf="signInForm.hasError('required','password')">
+                          Password is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+            </form>
+            <div>
+                    <hr>
+            </div>
+        <div class="d-flex justify-content-center mt-3 login_container" text-center>
+                <ion-button style="width:80%" (click)="emailSignIn()" color="dark tint" [disabled]="!signInForm.valid">
+                    <ion-icon name="mail">
+                    </ion-icon>
+                    <ion-label style="padding-left:5px;padding-bottom:5px;font-family: 'Open Sans'">
+                            Email Login
+                    </ion-label>
+                </ion-button>
+            </div>
+        <div>
+                <hr>
+        </div>
+        <div class="d-flex justify-content-center mt-3 login_container"  text-center>
+                <ion-button style="width:80%" (click)="googleLoginClick()" color="dark tint">
+                    <ion-icon name="logo-google">
+                    </ion-icon>
+                    <ion-label style="padding-left:5px;padding-bottom:5px;font-family: 'Open Sans'">
+                            Google Login
+                    </ion-label>
+                </ion-button>
+            </div>  
+                    
+            <div>
+                    <hr style="background-color: black">
+                </div>
+            <div class="d-flex justify-content-center mt-3 login_container" text-center>
+                <ion-button style="width:80%" (click)="signUpDialog()" color="dark tint">
+                    <ion-icon name="Mail">
+                    </ion-icon>
+                    <ion-label style="padding-left:5px;padding-bottom:5px;font-family: 'Open Sans'">
+                            Sign Up To JustIn
+                    </ion-label>
+                </ion-button>
+            </div> 
+           <!--  <div text-center>
+                    <a (click)="forgotPassword()" style="color: black">Forgot Password</a>
+                </div> -->
+</div>
+</div>
+
+<!-- <ion-content class="content">
+    <div class="user_card">
+        <div class="d-flex justify-content-center">
+            <div class="brand_logo_container">
+                <img style="height: 150px; width:150px" src="../../assets/imgs/JustInByAmatec.png" class="brand_logo" alt="Logo">
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mt-3 login_container" text-center>
+            <ion-button (click)="googleLoginClick()" color="secondary">
+                <ion-icon name="logo-google">
+                </ion-icon>
+                <ion-label style="padding-left:5px;padding-bottom:5px;font-family: Pacifico">
+                        Login with Google
+                </ion-label>
+            </ion-button>
+        </div>
+</div>
+</ion-content> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.js">
+</script>

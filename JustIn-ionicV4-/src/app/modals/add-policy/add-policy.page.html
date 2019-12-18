@@ -1,0 +1,41 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>
+            <div text-center>
+                <label style="color: #222428; font-family: 'Roboto', sans-serif">
+                    Add Policy
+                </label>
+            </div>
+          
+        </ion-title>
+      </ion-toolbar>
+  </ion-header>
+
+<ion-content  color="dark tint">
+    <ion-card>
+        <ion-card-content color="dark tint" style="border: solid 2px #FF8F13">
+        <ion-item class="backer">
+            <ion-label style="color: #fcfff9">Name:</ion-label>
+            <ion-input style="color: #fcfff9" [(ngModel)] = "inputName" placeholder="Add Name"></ion-input>
+          </ion-item>
+          <ion-item class="backer">
+              <ion-label style="color: #fcfff9">Description:</ion-label>
+              <ion-textarea style="color: #fcfff9" [(ngModel)] = "inputDescription" rows="3" placeholder="Add Description"></ion-textarea>
+            </ion-item>
+            <ion-item class="backer">
+                <ion-label style="color: #fcfff9">JSON String:</ion-label>
+                <ion-textarea style="color: #fcfff9" [(ngModel)] = "inputJsonString" rows="10" placeholder="Add Json String"></ion-textarea>
+              </ion-item>
+        </ion-card-content>        
+  </ion-card>
+  <ion-button (click)="closeModal()" color="primary" left bottom style="width: 15%; padding-left:2%">
+      <label style="color: #222428">
+        Cancel
+      </label>
+    </ion-button>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)=" savePolicy()">
+            <ion-icon color="dark tint" name="bookmark"></ion-icon> 
+         </ion-fab-button>
+      </ion-fab>
+</ion-content>

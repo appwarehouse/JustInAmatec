@@ -1,0 +1,93 @@
+<html>
+        <head>
+          <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metro/4.1.5/css/metro.min.css">
+          <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js'></script>
+
+          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+        <style>
+        @font-face {
+          font-family: 'OpenSans-Regular';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVZ0b.woff2) format('woff2');
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        </style>
+
+        </head>
+        <body>
+                <div style="margin: 20px;">
+                        <div class="row">
+                          <div class="col-9">
+                            <h1>Report Name</h1>
+                          </div>
+                          <div class="col-3" style="text-align: right;">
+                            <img src="./JustInByAmatec.png" style="width: 64px;">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="container">
+                            <canvas id="myChart" style="margin:30px"></canvas>
+                    </div>
+        
+                    <div style="margin: 20px">
+                            <table class='table striped'>
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Entry Time</th>
+                                            <th>Device</th>
+                                            <th>Direction</th>
+                                            <th>Driver Details</th>
+                                            <th>Vehicle Details</th>
+                                            <th>Photo</th>
+                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ` + masterString + `
+                                    </tbody>
+                                </table>
+                    </div>
+        <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['In', 'Out'],
+                datasets: [{
+                    label: 'In Out Report',
+                    data: [` + enterCount + `, ` + exitCount + `],
+                    backgroundColor: [
+                        'rgba(252,147,65,0.5)',
+                        'rgba(151,249,190,0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(252,147,65,0.5)',
+                        'rgba(151,249,190,0.5)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+              legend: { display: false },
+              title: {
+                display: true,
+                text: 'In Out Report for Site ` + sitename + `'
+              },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        </script>
+        </body>
+      </html>

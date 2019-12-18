@@ -1,0 +1,57 @@
+<mat-progress-bar *ngIf="loader" mode="indeterminate" color="primary"></mat-progress-bar>
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>
+            <div text-center>
+                <label style="color: #222428; font-family: 'Roboto', sans-serif">
+                    Assign Device
+                </label>
+            </div>
+          
+        </ion-title>
+      </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark tint">
+  <ion-card>
+    <ion-card-header>
+        <ion-card-subtitle>
+            {{deviceItem.display_name}}
+        </ion-card-subtitle>
+      <ion-card-title style="color: white;">
+          Assign a Site and a Policy 
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content color="dark tint" style="border: solid 2px #FF8F13">
+        <ion-item class="backer">
+            <ion-label style="color: #fcfff9">
+              Site: {{ siteSelected.display_name }}
+            </ion-label>
+            <ion-select style="color: #fcfff9" [(ngModel)]="siteSelected" interface="action-sheet" (ionChange)="popPolicies()">
+                <ion-select-option *ngFor="let site of sites" [value]="site">{{site.display_name}}</ion-select-option>
+              </ion-select>
+          </ion-item>
+          <ion-item class="backer">
+            <ion-label style="color: #fcfff9">
+              Policy {{selectedPolicy}}:
+            </ion-label>
+            <ion-select style="color: #fcfff9" [(ngModel)]="selectedPolicy" interface="action-sheet">
+                <ion-select-option *ngFor="let policy of policies" value="{{policy.display_name}}">{{policy.display_name}}</ion-select-option>
+              </ion-select>
+          </ion-item>
+    </ion-card-content>
+      </ion-card>
+      <ion-button (click)="closeModal()" color="primary" left bottom style="width: 15%; padding-left:2%">
+          <label style="color: #222428">
+            Cancel
+          </label>
+        </ion-button>
+        <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+            <ion-fab-button (click)="assignAnnounce2()">
+                <ion-icon color="dark tint" name="bookmark"></ion-icon> 
+             </ion-fab-button>
+          </ion-fab>
+</ion-content>
+    
+    
+

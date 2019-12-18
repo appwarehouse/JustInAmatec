@@ -1,0 +1,18 @@
+//This scss file is to define custom themes for the angular material components. 
+//Themes consist of three colours mainly primary, warn and accent.
+
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+$justin-app-primary: mat-palette($mat-orange, A400 , 100);
+$justin-app-accent: mat-palette($mat-green, 500);
+$justin-app-warn: mat-palette($mat-red, 500);
+
+$justin-app-theme: mat-light-theme($justin-app-primary,$justin-app-accent,$justin-app-warn);
+
+@include angular-material-theme($justin-app-theme);

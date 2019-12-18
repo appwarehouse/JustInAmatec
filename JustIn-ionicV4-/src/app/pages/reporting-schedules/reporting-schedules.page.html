@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar color="dark tint">
+          <ion-buttons slot="start">
+                  <ion-menu-button color="primary"></ion-menu-button>
+                </ion-buttons>
+    <ion-title>
+          <!-- <div style="float: left">
+                  <ion-icon name="menu" (click)="splitView()" style="font-size: 30px" color="primary"></ion-icon>
+            </div> -->
+        <div text-center>
+            <label style="color: #FF8F13; font-family: 'Roboto', sans-serif">
+                Reporting Schedules
+            </label>
+        </div>
+      
+    </ion-title>
+    <ion-buttons style="padding-right: 5px" slot=end>
+<!--       <img style="width: 40px; border-radius: 50px; padding-right:5px" src="{{loggedPhoto}}"> 
+ -->      <label style="color: #FF8F13; font-family: 'Roboto', sans-serif; font-weight: bold">{{loggedUsername}}</label>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content  color="dark tint">
+                    <ion-list lines="full" style="background-color: #222428">
+                   <ion-item class="backer" *ngFor="let schedule of schedulesList; let itemIndex = index">
+                      
+                      <ion-label>
+                          <h2 style="color: #FF8F13; font-size: 25px; font-weight: bold;">{{schedule.display_name}}</h2>
+                           <p style="color: #fcfff9">Description: {{schedule.intervalString}}</p>
+                       </ion-label>      
+                       <ion-button style="float: right" (click)="presentPop($event, itemIndex)">
+                        <ion-icon name="more" color="dark tint"></ion-icon>
+                    </ion-button>
+                    </ion-item>
+                </ion-list>
+<!--                 <ion-button (click)="openPDF()">Open</ion-button>
+ --><ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="addSchedule()">
+          <ion-icon color="light" name="add"></ion-icon> 
+       </ion-fab-button>
+    </ion-fab>
+</ion-content>

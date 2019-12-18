@@ -1,0 +1,80 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>
+            <div text-center>
+                <label style="color: #222428; font-family: 'Roboto', sans-serif">
+                    Edit Schedule
+                </label>
+            </div>
+          
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="dismissModal()">Close</ion-button>
+          </ion-buttons>
+      </ion-toolbar>
+  </ion-header>
+  
+  <ion-content color="dark tint">
+    <ion-card>
+        <ion-card-content color="dark tint" style="border: solid 2px #FF8F13">
+            <ion-item class="backer">
+                <ion-label style="color: #fcfff9">Site Name: {{scheduleItem.display_name}}</ion-label>
+              </ion-item>
+              <ion-item class="backer">
+                  <ion-label style="color: #fcfff9">Job Frequency: </ion-label>
+                  <ion-select [interfaceOptions]="customFrequencyOptions" style="color: #fcfff9" [(ngModel)]="Frequency">
+                    <ion-select-option *ngFor="let freq of frequencies" value="{{freq.expression}}" [selected]="setFreqencyExpressions">{{freq.display_name}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <ion-item class="backer" style="color: white;">
+                    <ion-label style="color: #fcfff9">Job Time: </ion-label>
+                    <ion-datetime [(ngModel)]="time" display-format="H:mm" picker-format="H:mm" value="date"></ion-datetime>
+                  </ion-item>
+                  <ion-item class="backer">
+                      <ion-label style="color: #fcfff9">Report Length: </ion-label>
+                      <ion-select [interfaceOptions]="customLengthOptions" style="color: #fcfff9" [(ngModel)]="selectedreportLength">
+                        <ion-select-option *ngFor="let length of reportLengthOptions" value="{{length}}">{{length}}</ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                  
+                  
+                  </ion-card-content>
+    </ion-card>
+    <ion-list class="backer">
+        <ion-list-header color="primary">
+          <ion-item color="primary" style="width: 100%;">
+            <ion-label >
+                Recipients
+            </ion-label>
+              <ion-button slot="end" (click)="showInput()">
+                Add Recipient
+                  <ion-icon name="add-circle-outline" color="dark tint"></ion-icon>
+              </ion-button>
+          </ion-item>
+
+            
+        </ion-list-header>
+        <ion-item *ngIf="recipientInput">
+            <ion-input type="email" style="color: #fcfff9" [(ngModel)]="newRecipient" placeholder="Add Email Address"></ion-input>
+            <ion-button slot="end" (click)="addEmail()">
+                Add
+                  <ion-icon name="add-circle-outline" color="dark tint"></ion-icon>
+              </ion-button>
+        </ion-item>
+      <ion-item *ngFor="let recipient of scheduleItem.recipients" class="backer" style="color: #fcfff9">
+        <ion-label>
+            {{recipient}}
+        </ion-label>
+        <ion-button slot="end" (click)="presentAlert($event, recipient)">
+          Remove Recipient
+            <ion-icon name="trash" color="dark tint"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="createSchedule()">
+            <ion-icon color="light" name="save"></ion-icon> 
+         </ion-fab-button>
+      </ion-fab>
+  </ion-content>
+

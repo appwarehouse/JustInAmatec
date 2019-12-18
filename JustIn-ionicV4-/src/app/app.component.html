@@ -1,0 +1,75 @@
+<ion-app>
+  <ion-split-pane>
+    <ion-menu type="overlay">
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title> 
+            <div text-right>
+              <label style="color: #383a3e; font-family: 'Open Sans', sans-serif">
+                  JustIn
+              </label>
+          </div>
+        </ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content color="dark tint">
+        <div text-center>
+          <img style="width: 170px; padding-top: 15%" src="../assets/imgs/JustInByAmatec.png" (click)="homeClick()">
+        </div>
+        <!-- <ion-list style="background-color: #222428; padding-top: 5%">
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of menu()">
+                <ion-item class="backer" [routerDirection]="'root'" [routerLink]="[p.url]">
+                  <ion-icon slot="start" color="primary" [name]="p.icon"></ion-icon>
+                  <ion-label style="color: #FF8F13">
+                      {{p.title}}
+                    </ion-label>
+                  </ion-item>
+                
+            
+            
+          </ion-menu-toggle>
+        </ion-list> -->
+        <ion-list style="background-color: #222428; padding-top: 5%">
+            <ion-menu-toggle auto-hide="false" *ngFor="let p of menu()">
+              <div *ngIf="p.multi_level === true">
+                  <ion-item class="backer" (click)="toggleSection(p)">
+                      <ion-icon slot="start" color="primary" [name]="p.icon"></ion-icon>
+                      <ion-label style="color: #FF8F13">
+                          {{p.title}}
+                        </ion-label>
+                      </ion-item>
+    
+                      <div *ngIf="p.open === true" class="animated fadeIn">
+                        <ion-list class="subbacker">
+                          <ion-item *ngFor="let subItem of p.submenu" style="padding-left: 10%;" class="subbacker" [routerDirection]="'root'" [routerLink]="[subItem.url]">
+                              <ion-icon slot="start" color="primary" [name]="subItem.icon"></ion-icon>
+                              <ion-label style="color: #FF8F13">
+                                  {{subItem.title}}
+                                </ion-label>
+                            
+                          </ion-item>
+                        </ion-list>
+                      </div>
+              </div>
+              <div *ngIf="p.multi_level === false">
+                  <ion-item class="backer" [routerDirection]="'root'" [routerLink]="[p.url]">
+                      <ion-icon slot="start" color="primary" [name]="p.icon"></ion-icon>
+                      <ion-label style="color: #FF8F13">
+                          {{p.title}}
+                        </ion-label>
+                      </ion-item>
+              </div>
+            </ion-menu-toggle>
+          </ion-list>
+      </ion-content>
+      <ion-footer style="background-color: #222428">
+          <ion-button style="width:100%;padding-left:5%;padding-right:5%;padding-bottom:1%" color="primary" (click)="Logout()">
+            <label style="color: #fcfff9;font-family: 'Open Sans', sans-serif">
+              Logout
+            </label>
+          </ion-button>
+        </ion-footer>
+    </ion-menu>
+    <ion-router-outlet main></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>
