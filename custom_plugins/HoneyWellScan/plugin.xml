@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="com.honeywell.scan" version="0.0.1" 
+    xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>HoneyWellScan</name>
+    <js-module name="HoneyWellScan" src="www/HoneyWellScan.js">
+        <clobbers target="cordova.plugins.HoneyWellScan" />
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="HoneyWellScan">
+                <param name="android-package" value="com.honeywell.scan.HoneyWellScan" />
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
+        <source-file src="src/android/HoneyWellScan.java" target-dir="src/com/honeywell/scan/HoneyWellScan" />
+        <source-file src="src/android/Barcode.java" target-dir="src/com/hdhe/scantest/Barcode" />
+        <source-file src="src/android/ScanUtil.java" target-dir="src/com/hdhe/scantest/ScanUtil" />
+        <source-file src="src/android/Tools.java" target-dir="src/com/hdhe/scantest/Tools" />
+        <source-file src="src/android/Util.java" target-dir="src/com/hdhe/scantest/Util" />
+
+    </platform>
+</plugin>

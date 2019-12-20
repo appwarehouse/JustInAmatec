@@ -1,7 +1,0 @@
-{
-  "name": "JustInMobile",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "angular"
-}

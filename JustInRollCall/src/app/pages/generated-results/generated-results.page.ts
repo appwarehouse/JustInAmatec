@@ -33,6 +33,15 @@ export class GeneratedResultsPage implements OnInit {
   constructor(private nativeStorage: NativeStorage, public cd: ChangeDetectorRef, public search: SearchEngineService) { }
 
   ngOnInit() {
+    //on init, remove all events that have been denied entry
+    //next, loop through the remaining events and separate them by vehicle and pedestrian
+    //then by GateExit or by GateEntry
+    //next, loop vehicle exits and for each of the vehicle reg numbers, check if it is in the vehicle entries. 
+    //if yes, assumption is that the vehicle has left the premises
+    //if no, assumption is that the vehicle is still on site
+    //the same process is done for the pedestrian events based on the id number object
+
+    //
     this.nativeStorage.getItem('site').then((data)=>{
       this.sitename = data
     })
@@ -98,14 +107,7 @@ export class GeneratedResultsPage implements OnInit {
          
 
         if(eventpos === data.length - 1){
-          console.log(this.vehicleEnterEvents)
-          console.log(this.vehicleExitEvents)
-
-          console.log(this.pedestrianEnterEvents);
-          console.log(this.pedestrianExitEvents);
-
-
-          this.pedestrianEnterEvents.forEach((itemEvent, scndpos)=>{
+            this.pedestrianEnterEvents.forEach((itemEvent, scndpos)=>{
             if(this.pedestrianExitEvents.includes(itemEvent[1].vinfo)){
             
             }
@@ -153,6 +155,8 @@ export class GeneratedResultsPage implements OnInit {
     })
   }
 
+  //when the segment is clicked, get the relevant segment name and assign the divs to show/hide
+  //detect changes afterwards to force any change that are not appearing
    segmentChanged(event){
      console.log(event);
     if(event.detail.value === 'vehicle'){
@@ -175,6 +179,8 @@ export class GeneratedResultsPage implements OnInit {
     }
   }
 
+
+  //method to search for results on the 'All' segment
   searchAll(){
     if(this.searchTerm.length > 0){
       this.allList = this.search.searchName(this.tempAllList,this.searchTerm);
@@ -187,6 +193,7 @@ export class GeneratedResultsPage implements OnInit {
 
   }
 
+    //method to search for results on the 'vehicle' segment
   searchVehicle(){
     if(this.searchVehicleTerm.length > 0){
       this.vehicleresultList = this.search.searchName(this.tempVehicleList,this.searchVehicleTerm);
@@ -199,6 +206,7 @@ export class GeneratedResultsPage implements OnInit {
     
   }
 
+    //method to search for results on the 'pedestrian' segment
   searchID(){
     if(this.searchIDTerm.length > 0){
       this.pedestrianresultList = this.search.searchID(this.tempPedestrianList,this.searchIDTerm);

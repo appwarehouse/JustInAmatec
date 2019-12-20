@@ -5,6 +5,8 @@ import { NativeStorage  } from '@ionic-native/native-storage/ngx';
 import { Router } from '@angular/router';
 import { ToastController, LoadingController } from '@ionic/angular';
 import { InitialDataSaveService } from 'src/app/services/initial-data-save.service';
+import { ɵINTERNAL_BROWSER_PLATFORM_PROVIDERS } from '@angular/platform-browser';
+import { isNgTemplate } from '@angular/compiler';
 
 @Component({
   selector: 'app-log-in',
@@ -21,71 +23,13 @@ export class LogInPage implements OnInit {
     this.storage.getItem('VCODE').then((data)=>{
       this.vcode = data
     })
-    /* firebase.auth().getRedirectResult().then((result) => {
-      if(result){
-        console.log(result);
-        this.loginLogic(result)
-      }
-    }).catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-    }); */
   }
 
-  /* loginLogic(result){
-    console.log("reached")
-    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        let name = result.user.displayName;
-        let email = result.user.email;
-        let uid = result.user.uid;
-        this.storage.setItem('Name',name)
-        this.storage.setItem('Email',email)
-        this.storage.setItem('UID',uid)
-        const toast = this.Toast.create({
-          message: 'Success. Welcome to JustIn!',
-          duration: 4000,
-          color: "success",
-          position: "top"
-        }).then((toaster) =>{
-          
-          this.FirebaseService.isSuperAdmin(result.user.uid).then((promise)=>{
-            if(this.FirebaseService.adminStatus){
-              localStorage.setItem('loggedphotoURL', firebase.auth().currentUser.photoURL);
-              localStorage.setItem('loggedDisplayName', firebase.auth().currentUser.displayName);
-              
-              this.router.navigate(['home']);
-            }
-            else{
- 
-              this.FirebaseService.isNewUser(result.user.uid).then((promise)=>{
-                if(this.FirebaseService.newUser){
-                  const toast = this.Toast.create({
-                    message: 'Welcome to Just In. As you are a new user, please contact Admin to complete registration.',
-                    duration: 15000,
-                    color: "danger",
-                    position: "top"
-                  }).then((toast) =>{
-                    toast.present();
-                  })
-                }
-                else{
-                  this.FirebaseService.nonAdminSetSites(result.user.uid).then((promise)=>{
-                    this.FirebaseService.getAllowedSites().then(()=>{
-                   
-                      localStorage.setItem('loggedphotoURL', firebase.auth().currentUser.photoURL);
-                      localStorage.setItem('loggedDisplayName', firebase.auth().currentUser.displayName);
-                      this.router.navigate(['home']);
-                      toaster.present();
-                    }) 
-                  })
-                }
-              })
-            }
-          })
-          
-        }); 
-  } */
-
+  //log in with auth provider
+  /* when using signinwithredirect in cordova based applications, ul web hooks must be used to allow
+  the application to leave itself, open a webpage to sign into google, and then subsequently return to the application.
+  Unfortunately this hook does not return to the point where signinwithredirect is called so the landingpage guard
+  was used to check if the user has been logged in successfully when the application restarts after coming from the ul hook */
   logIn(){
     let provider = new firebase.auth.GoogleAuthProvider();
     provider.setCustomParameters({
@@ -111,6 +55,7 @@ export class LogInPage implements OnInit {
     
   }
 
+  //sign in with email works as documented by firebase
   emaillogIn(){
     if(!this.email){
       const toast = this.Toast.create({
@@ -137,6 +82,7 @@ export class LogInPage implements OnInit {
     loading.then((loader)=>{
       loader.present();
       firebase.auth().signInWithEmailAndPassword(this.email,this.password).then(data => {
+        //calls the initial data save service to save the user data and fire off the firebase service
         this.dataSave.saveUserData(data);
         loader.dismiss();
        console.log(data);
@@ -166,6 +112,7 @@ export class LogInPage implements OnInit {
             toaster.present();
           });
         }
+        //if too many requests are invalid this toast appears. Depending on requirements, Re-Captcha can be implemented to overcome this issue immedietaly.
         if(error.code === "auth/too-many-requests"){
           loader.dismiss();
           const toast = this.Toast.create({

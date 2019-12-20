@@ -10,6 +10,8 @@ export class SearchEngineService {
 
   }
 
+  //all the below methods are for searching, where the relevant field is converted to lowercase and is checked for the characters in the search term
+
   searchName(List,searchTerm:string){
     this.filteredList = [];
     this.tempList = List;

@@ -8,6 +8,8 @@ import { InitialDataSaveService } from '../services/initial-data-save.service';
 @Injectable({
   providedIn: 'root'
 })
+
+//Guard to ensure that when the app is restarted, if logged in the user goes directly into the app. Else go to login page
 export class LandingGuardGuard implements CanActivate{
   constructor(public router:Router, public DataSave: InitialDataSaveService){}
   

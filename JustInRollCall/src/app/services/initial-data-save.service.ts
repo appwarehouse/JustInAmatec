@@ -15,6 +15,7 @@ export class InitialDataSaveService {
   saveUserData(result){
     return new Promise((resolve, reject) => {
       console.log(result);
+      //set the persistance of user login state. More info can be found on firebase documentation
       firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
           let name = result.displayName;
           let email = result.email;
@@ -37,6 +38,7 @@ export class InitialDataSaveService {
                 return resolve();
               }
               else{
+                //check if this is a new user
                 this.FirebaseService.isNewUser(result.uid).then((promise)=>{
                   if(this.FirebaseService.newUser){
                     
@@ -60,6 +62,7 @@ export class InitialDataSaveService {
     
   }
 
+  //get the version code for the application
   saveAppCode(code){
     this.storage.setItem('VCODE',code)
   }

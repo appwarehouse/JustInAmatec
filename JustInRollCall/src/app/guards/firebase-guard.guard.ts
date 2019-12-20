@@ -7,6 +7,8 @@ import * as firebase from 'firebase';
 @Injectable({
   providedIn: 'root'
 })
+
+//Guard to ensure that only logged in users can access pages other than the login page
 export class FirebaseGuardGuard implements CanActivate{
 
   constructor(public router:Router){}

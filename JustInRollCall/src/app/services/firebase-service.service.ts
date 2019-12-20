@@ -38,12 +38,15 @@ export class FirebaseServiceService {
     })
   }
 
+
+  //gets the actual site object from the sites nodes for the non admin user
   getAllowedSites() {
     return new Promise((resolve, reject) => {
       this.allowedSites = [];
       let ref = firebase
         .database()
         .ref('sites')
+        //read once from sites node
       ref.once("value", (Snapshot) => {
         Snapshot.forEach((el) => {
           let item = el.val();
@@ -53,12 +56,14 @@ export class FirebaseServiceService {
           }
         })
       }).then(() => {
+        //set allowed sites in localstorage for use later, in stringified format
         localStorage.setItem('AllowedSites', JSON.stringify(this.allowedSites));
         return resolve();
       })
     })
   }
 
+  //checks if a user is a super admin or not from the user roles node
   isSuperAdmin(uid) {
     return new Promise((resolve, reject) => {
 
@@ -73,6 +78,7 @@ export class FirebaseServiceService {
               let ref = firebase
                 .database()
                 .ref('sites')
+                        //read once from sites node
               ref.once("value", (Snapshot) => {
                 Snapshot.forEach((el) => {
                   let item = el.val();
@@ -80,6 +86,7 @@ export class FirebaseServiceService {
                   this.allowedSites.push(item);
                 })
               }).then(() => {
+                //set admin boolean and the allowed sites in localstorage for later use
                 localStorage.setItem('isAdmin', el.val());
                 localStorage.setItem('AllowedSites', JSON.stringify(this.allowedSites));
                 return resolve();
@@ -92,6 +99,7 @@ export class FirebaseServiceService {
         }
         else {
           this.adminStatus = false;
+          //set admin boolean
           localStorage.setItem('isAdmin', this.adminStatus);
           return resolve();
         }
@@ -102,6 +110,8 @@ export class FirebaseServiceService {
     })
   }
 
+
+  //checks if this user is a new user on login
   isNewUser(uid) {
     return new Promise((resolve, reject) => {
       if (this.adminStatus === false) {
@@ -121,6 +131,7 @@ export class FirebaseServiceService {
 
   }
 
+  //get the allowed policies for each site
   getAllowedPolicies(uid) {
     return new Promise((resolve, reject) => {
       let ref = firebase
@@ -133,6 +144,7 @@ export class FirebaseServiceService {
           this.allowedPolicies.push(item);
         })
       }).then((promise) => {
+        //set allowed policies
         localStorage.setItem('AllowedPolicies', JSON.stringify(this.allowedPolicies));
         return resolve();
       }).catch((error) => {

@@ -17,6 +17,7 @@ export class HomePage {
   constructor(public Toast: ToastController,public cd: ChangeDetectorRef,private nativeStorage: NativeStorage,private datasave: InitialDataSaveService,public loadingController: LoadingController, public router: Router) {}
 
   ngOnInit(){
+    //get allowed sites on initial page load
     const loading = this.loadingController.create({
       translucent: true,
       spinner: "dots",
@@ -38,6 +39,7 @@ export class HomePage {
     
   }
 
+  //get the allowed sites from localstorage that have been set in the FirebaseService (Code can be reworked to use NativeStorage instead)
   getItems(){
     return new Promise((resolve, reject)=>{
       console.log('reached')
@@ -46,6 +48,7 @@ export class HomePage {
         let list = this.allowedSites();
         console.log(JSON.parse(list));
         this.sitesList = JSON.parse(list)
+        //sort the list by display name
         this.sitesList.sort(function(a, b){
           var x = a.display_name.toLowerCase();
           var y = b.display_name.toLowerCase();
@@ -53,20 +56,24 @@ export class HomePage {
           if (x > y) {return 1;}
           return 0;
         });
+        //use change detection to force change of html
         this.cd.detectChanges();
         return resolve();
       }
       else{
+        //if nothing is found, recursively call the functiuon incase FirebaseService has not completed filling in the list into localstorage
         console.log('false')
         this.getItems();
       }
     })
   }
 
+  //get allowed sites
   allowedSites(){
     return localStorage.getItem('AllowedSites')
   }
 
+  //refresh the list of sites
   doRefresh(event){
     firebase.auth().onAuthStateChanged((result) => {
       if (result) {
@@ -111,6 +118,7 @@ export class HomePage {
     })
   }
 
+  //get the devices for a specific site
   getSiteDevices(uid){
     return new Promise((resolve, reject) => {
     this.siteDevices = [];
@@ -123,6 +131,7 @@ export class HomePage {
         Snapshot.forEach((child) =>{
           let item = child.val();
           item.key = child.key;
+          //store device objects in list for usage later
           this.siteDevices.push(item);
         })
       }).then(()=>{
@@ -131,14 +140,9 @@ export class HomePage {
     })
   }
 
- check2(){
-    console.log("started")
-    firebase.database().ref('events').orderByChild('/device/policy_summary/uid')
-    .equalTo('-LQn9h0P-IAEKVyLs7Dx').once('value', (Snapshot) =>{
-      console.log(Snapshot.val());
-    })
-  }
-
+  //called when a site is selected. It checks if any events exist on the site for today
+  //if they do, it fetches them, places them in native storage and essentially passes them on to the generated results page
+  //if not, generated results page shows that there are no events today
   performCheck(site){
     let tempList = [];
     let eventKeys = [];
@@ -155,6 +159,7 @@ export class HomePage {
       let currentDateDate = new Date(currentDate).getDate();
       this.getSiteDevices(site.key).then(()=>{
         if(this.siteDevices.length > 0){
+          //get event keys from event index node in firebase
           this.siteDevices.forEach((key, pos)=>{
             let ref = firebase
             .database()
