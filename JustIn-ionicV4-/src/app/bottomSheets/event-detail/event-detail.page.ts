@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import {MAT_BOTTOM_SHEET_DATA} from '@angular/material';
+import {MAT_BOTTOM_SHEET_DATA, MatBottomSheet} from '@angular/material';
 
 @Component({
   selector: 'app-event-detail',
@@ -9,7 +9,7 @@ import {MAT_BOTTOM_SHEET_DATA} from '@angular/material';
 export class EventDetailPage implements OnInit {
   public eventItem;
   public mapsRef;
-  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public eventData: any) { 
+  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public eventData: any, public bottomSheet: MatBottomSheet) { 
     
     this.eventItem = eventData;
   }
@@ -29,6 +29,10 @@ export class EventDetailPage implements OnInit {
       this.mapsRef = "http://www.google.com/maps/place/-26.151356,28.159319/";
     }
     
+  }
+
+  dismissBottom(){
+    this.bottomSheet.dismiss();
   }
 
 }

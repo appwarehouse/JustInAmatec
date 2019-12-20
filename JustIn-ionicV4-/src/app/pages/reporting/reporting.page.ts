@@ -321,6 +321,7 @@ export class ReportingPage implements OnInit {
                     }).then((promise) => {
                       //tie results to MatDataTable, making use of RxJS Behavioural Subject
                       this.resultsDisplay = true;
+                      tempList.sort(function(a, b){return new Date(a.created_at).getTime() - new Date(b.created_at).getTime()});
                       this.eventsList.next(tempList);
                       this.datasource.data = this.eventsList.value;
                       this.datasource.paginator = this.AllPaginator;
