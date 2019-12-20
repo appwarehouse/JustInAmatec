@@ -8,7 +8,7 @@ ReportingJS is the NodeJS source code for the emailing scheduler. This node js a
 
 Custom Plugins are custom cordova plugins that have been created using a tool called plugman. Here is a link on how to use plugman. --> https://github.com/RootSoft/Create-a-custom-Cordova-plugin. Here is another link that details how exaclty to implement this plugin into an ionic application. --> https://joangape.blogspot.com/2019/11/create-custom-cordova-plugin-for-ionic4.html. The ionic native folder has already been cloned into this root folder for JustInAmatec
 
-To implement scanning in our ionic application, the goal is to include the libraries in the "Scanning Libraries" into our custom cordova plugins to enable out ionic apps to scan. "MyFirstPlugin" is for the Chainwell device libraries, whilst "HoneyWellScan" is for the Honeywell devices.
+To implement scanning in our ionic application, the goal is to include the libraries in the "Scanning Libraries" into our custom cordova plugins to enable out ionic apps to scan. "MyFirstPlugin" is for the Chainwell device libraries, whilst "HoneyWellScan" is for the Honeywell devices. For the Chainwell plugin ensure that you compile the .jar files in the "build.gradle" file. Alternatively you can create a "build-extras.gradle" file and tell gradle to compile from there. (in platforms).
 
 
 
