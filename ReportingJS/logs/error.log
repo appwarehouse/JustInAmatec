@@ -230,3 +230,139 @@
     at load (C:\Users\tawie\Desktop\JustInv4\ReportingJS\node_modules\jsreport-fs-store\lib\persistence.js:141:13)
 2019-11-29T07:17:23.461Z - error: Error occured during reporter init Error: Wrong name pattern for samples\Sales\~sales-data.
     at load (C:\Users\tawie\Desktop\JustInv4\ReportingJS\node_modules\jsreport-fs-store\lib\persistence.js:141:13)
+2020-01-27T12:25:50.674Z - error: uncaughtException: kill ENOSYS date=Mon Jan 27 2020 14:25:50 GMT+0200 (South Africa Standard Time), pid=6812, uid=null, gid=null, cwd=C:\Projects\Ionic\JustInAmatec\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v10.16.0, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustInAmatec\ReportingJS\index.js], rss=16556032, heapTotal=66510848, heapUsed=55056312, external=529445, loadavg=[0, 0, 0], uptime=234646, trace=[column=13, file=internal/process/per_thread.js, function=process.kill, line=198, method=kill, native=false, column=15, file=C:\Projects\Ionic\JustInAmatec\ReportingJS\node_modules\signal-exit\index.js, function=process.listener, line=95, method=listener, native=false, column=13, file=events.js, function=process.emit, line=198, method=emit, native=false], stack=[Error: kill ENOSYS,     at process.kill (internal/process/per_thread.js:198:13),     at process.listener (C:\Projects\Ionic\JustInAmatec\ReportingJS\node_modules\signal-exit\index.js:95:15),     at process.emit (events.js:198:13)]
+2020-01-29T12:35:49.853Z - error: Error when processing render request Failed to launch chrome!
+[0129/143548.613:FATAL:feature_list.cc(282)] Check failed: !g_initialized_from_accessor. 
+Backtrace:
+	ovly_debug_event [0x00007FFBDAA91252+16183762]
+	ovly_debug_event [0x00007FFBDAA90832+16181170]
+	ovly_debug_event [0x00007FFBDAAA3383+16257795]
+	ovly_debug_event [0x00007FFBDAA93386+16192262]
+	ovly_debug_event [0x00007FFBDA5E4B2E+11283118]
+	ovly_debug_event [0x00007FFBDAA0DB58+15645400]
+	ovly_debug_event [0x00007FFBDAA0DACD+15645261]
+	ovly_debug_event [0x00007FFBDAA38F28+15822504]
+	ovly_debug_event [0x00007FFBDAA0D35E+15643358]
+	ovly_debug_event [0x00007FFBDAA383E3+15819619]
+	ovly_debug_event [0x00007FFBDAA382BB+15819323]
+	ovly_debug_event [0x00007FFBDAA380F2+15818866]
+	ChromeMain [0x00007FFBD9B211B6+286]
+	Ordinal0 [0x00007FF640B8275F+10079]
+	Ordinal0 [0x00007FF640B8182D+6189]
+	GetHandleVerifier [0x00007FF640C8B7C2+697538]
+	BaseThreadInitThunk [0x00007FFC536F7BD4+20]
+	RtlUserThreadStart [0x00007FFC5478CED1+33]
+
+
+
+TROUBLESHOOTING: https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md
+ Error: Failed to launch chrome!
+[0129/143548.613:FATAL:feature_list.cc(282)] Check failed: !g_initialized_from_accessor. 
+Backtrace:
+	ovly_debug_event [0x00007FFBDAA91252+16183762]
+	ovly_debug_event [0x00007FFBDAA90832+16181170]
+	ovly_debug_event [0x00007FFBDAAA3383+16257795]
+	ovly_debug_event [0x00007FFBDAA93386+16192262]
+	ovly_debug_event [0x00007FFBDA5E4B2E+11283118]
+	ovly_debug_event [0x00007FFBDAA0DB58+15645400]
+	ovly_debug_event [0x00007FFBDAA0DACD+15645261]
+	ovly_debug_event [0x00007FFBDAA38F28+15822504]
+	ovly_debug_event [0x00007FFBDAA0D35E+15643358]
+	ovly_debug_event [0x00007FFBDAA383E3+15819619]
+	ovly_debug_event [0x00007FFBDAA382BB+15819323]
+	ovly_debug_event [0x00007FFBDAA380F2+15818866]
+	ChromeMain [0x00007FFBD9B211B6+286]
+	Ordinal0 [0x00007FF640B8275F+10079]
+	Ordinal0 [0x00007FF640B8182D+6189]
+	GetHandleVerifier [0x00007FF640C8B7C2+697538]
+	BaseThreadInitThunk [0x00007FFC536F7BD4+20]
+	RtlUserThreadStart [0x00007FFC5478CED1+33]
+
+
+
+TROUBLESHOOTING: https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md
+
+    at onClose (c:\Projects\Ionic\JustInAmatec\ReportingJS\node_modules\puppeteer\lib\Launcher.js:348:14)
+    at ChildProcess.helper.addEventListener (c:\Projects\Ionic\JustInAmatec\ReportingJS\node_modules\puppeteer\lib\Launcher.js:338:60)
+    at ChildProcess.emit (events.js:203:15)
+    at Process.ChildProcess._handle.onexit (internal/child_process.js:248:12)
+2020-01-30T16:34:45.739Z - error: Error when processing render request Failed to launch chrome!
+[0130/183440.130:FATAL:feature_list.cc(282)] Check failed: !g_initialized_from_accessor. 
+Backtrace:
+	ovly_debug_event [0x00007FFBDAA91252+16183762]
+	ovly_debug_event [0x00007FFBDAA90832+16181170]
+	ovly_debug_event [0x00007FFBDAAA3383+16257795]
+	ovly_debug_event [0x00007FFBDAA93386+16192262]
+	ovly_debug_event [0x00007FFBDA5E4B2E+11283118]
+	ovly_debug_event [0x00007FFBDAA0DB58+15645400]
+	ovly_debug_event [0x00007FFBDAA0DACD+15645261]
+	ovly_debug_event [0x00007FFBDAA38F28+15822504]
+	ovly_debug_event [0x00007FFBDAA0D35E+15643358]
+	ovly_debug_event [0x00007FFBDAA383E3+15819619]
+	ovly_debug_event [0x00007FFBDAA382BB+15819323]
+	ovly_debug_event [0x00007FFBDAA380F2+15818866]
+	ChromeMain [0x00007FFBD9B211B6+286]
+	Ordinal0 [0x00007FF72552275F+10079]
+	Ordinal0 [0x00007FF72552182D+6189]
+	GetHandleVerifier [0x00007FF72562B7C2+697538]
+	BaseThreadInitThunk [0x00007FFC536F7BD4+20]
+	RtlUserThreadStart [0x00007FFC5478CED1+33]
+
+
+
+TROUBLESHOOTING: https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md
+ Error: Failed to launch chrome!
+[0130/183440.130:FATAL:feature_list.cc(282)] Check failed: !g_initialized_from_accessor. 
+Backtrace:
+	ovly_debug_event [0x00007FFBDAA91252+16183762]
+	ovly_debug_event [0x00007FFBDAA90832+16181170]
+	ovly_debug_event [0x00007FFBDAAA3383+16257795]
+	ovly_debug_event [0x00007FFBDAA93386+16192262]
+	ovly_debug_event [0x00007FFBDA5E4B2E+11283118]
+	ovly_debug_event [0x00007FFBDAA0DB58+15645400]
+	ovly_debug_event [0x00007FFBDAA0DACD+15645261]
+	ovly_debug_event [0x00007FFBDAA38F28+15822504]
+	ovly_debug_event [0x00007FFBDAA0D35E+15643358]
+	ovly_debug_event [0x00007FFBDAA383E3+15819619]
+	ovly_debug_event [0x00007FFBDAA382BB+15819323]
+	ovly_debug_event [0x00007FFBDAA380F2+15818866]
+	ChromeMain [0x00007FFBD9B211B6+286]
+	Ordinal0 [0x00007FF72552275F+10079]
+	Ordinal0 [0x00007FF72552182D+6189]
+	GetHandleVerifier [0x00007FF72562B7C2+697538]
+	BaseThreadInitThunk [0x00007FFC536F7BD4+20]
+	RtlUserThreadStart [0x00007FFC5478CED1+33]
+
+
+
+TROUBLESHOOTING: https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md
+
+    at onClose (C:\Projects\Ionic\JustInAmatec\ReportingJS\node_modules\puppeteer\lib\Launcher.js:348:14)
+    at ChildProcess.helper.addEventListener (C:\Projects\Ionic\JustInAmatec\ReportingJS\node_modules\puppeteer\lib\Launcher.js:338:60)
+    at ChildProcess.emit (events.js:203:15)
+    at Process.ChildProcess._handle.onexit (internal/child_process.js:248:12)
+2020-01-30T19:25:54.047Z - error: uncaughtException: read ECONNRESET date=Thu Jan 30 2020 21:25:53 GMT+0200 (South Africa Standard Time), pid=16556, uid=null, gid=null, cwd=C:\Projects\Ionic\JustInAmatec\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v10.16.0, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustInAmatec\ReportingJS\index.js], rss=19804160, heapTotal=62316544, heapUsed=54181184, external=493048, loadavg=[0, 0, 0], uptime=519049, trace=[column=27, file=internal/stream_base_commons.js, function=TCP.onStreamRead, line=111, method=onStreamRead, native=false], stack=[Error: read ECONNRESET,     at TCP.onStreamRead (internal/stream_base_commons.js:111:27)]
+2020-01-31T12:40:09.832Z - error: uncaughtException: read ECONNRESET date=Fri Jan 31 2020 14:40:09 GMT+0200 (South Africa Standard Time), pid=11364, uid=null, gid=null, cwd=C:\Projects\Ionic\JustInAmatec\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v10.16.0, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustInAmatec\ReportingJS\index.js], rss=18522112, heapTotal=63365120, heapUsed=56788160, external=493048, loadavg=[0, 0, 0], uptime=581102, trace=[column=27, file=internal/stream_base_commons.js, function=TCP.onStreamRead, line=111, method=onStreamRead, native=false], stack=[Error: read ECONNRESET,     at TCP.onStreamRead (internal/stream_base_commons.js:111:27)]
+2020-02-03T10:11:56.364Z - error: uncaughtException: read ECONNRESET date=Mon Feb 03 2020 12:11:56 GMT+0200 (South Africa Standard Time), pid=16100, uid=null, gid=null, cwd=C:\Projects\Ionic\JustInAmatec\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v10.16.0, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustInAmatec\ReportingJS\index.js], rss=21798912, heapTotal=67035136, heapUsed=58234920, external=486944, loadavg=[0, 0, 0], uptime=831409, trace=[column=27, file=internal/stream_base_commons.js, function=TCP.onStreamRead, line=111, method=onStreamRead, native=false], stack=[Error: read ECONNRESET,     at TCP.onStreamRead (internal/stream_base_commons.js:111:27)]
+2020-02-06T06:18:28.037Z - error: uncaughtException: read ECONNRESET date=Thu Feb 06 2020 08:18:27 GMT+0200 (South Africa Standard Time), pid=10096, uid=null, gid=null, cwd=C:\Projects\Ionic\JustInAmatec\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v10.16.0, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustInAmatec\ReportingJS\index.js], rss=20402176, heapTotal=65986560, heapUsed=59440584, external=777277, loadavg=[0, 0, 0], uptime=41773, trace=[column=27, file=internal/stream_base_commons.js, function=TCP.onStreamRead, line=111, method=onStreamRead, native=false], stack=[Error: read ECONNRESET,     at TCP.onStreamRead (internal/stream_base_commons.js:111:27)]
+2020-02-06T06:48:54.050Z - error: uncaughtException: kill ENOSYS date=Thu Feb 06 2020 08:48:53 GMT+0200 (South Africa Standard Time), pid=22856, uid=null, gid=null, cwd=C:\Projects\Ionic\JustInAmatec\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v10.16.0, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustInAmatec\ReportingJS\index.js], rss=59387904, heapTotal=63889408, heapUsed=56257824, external=495069, loadavg=[0, 0, 0], uptime=43599, trace=[column=13, file=internal/process/per_thread.js, function=process.kill, line=198, method=kill, native=false, column=15, file=C:\Projects\Ionic\JustInAmatec\ReportingJS\node_modules\signal-exit\index.js, function=process.listener, line=95, method=listener, native=false, column=13, file=events.js, function=process.emit, line=198, method=emit, native=false], stack=[Error: kill ENOSYS,     at process.kill (internal/process/per_thread.js:198:13),     at process.listener (C:\Projects\Ionic\JustInAmatec\ReportingJS\node_modules\signal-exit\index.js:95:15),     at process.emit (events.js:198:13)]
+2020-02-07T10:33:36.903Z - error: uncaughtException: read ECONNRESET date=Fri Feb 07 2020 12:33:36 GMT+0200 (South Africa Standard Time), pid=7440, uid=null, gid=null, cwd=C:\Projects\Ionic\JustIn\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v12.14.1, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustIn\ReportingJS\index.js, run], rss=67002368, heapTotal=47837184, heapUsed=43859568, external=7427472, loadavg=[0, 0, 0], uptime=21199, trace=[column=27, file=internal/stream_base_commons.js, function=TCP.onStreamRead, line=200, method=onStreamRead, native=false], stack=[Error: read ECONNRESET,     at TCP.onStreamRead (internal/stream_base_commons.js:200:27)]
+2020-02-07T18:35:17.965Z - error: uncaughtException: read ECONNRESET date=Fri Feb 07 2020 20:35:17 GMT+0200 (South Africa Standard Time), pid=13936, uid=null, gid=null, cwd=C:\Projects\Ionic\JustIn\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v12.14.1, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustIn\ReportingJS\index.js, run], rss=79654912, heapTotal=51769344, heapUsed=48843400, external=1747021, loadavg=[0, 0, 0], uptime=50100, trace=[column=27, file=internal/stream_base_commons.js, function=TCP.onStreamRead, line=200, method=onStreamRead, native=false], stack=[Error: read ECONNRESET,     at TCP.onStreamRead (internal/stream_base_commons.js:200:27)]
+2020-02-10T05:23:37.999Z - error: uncaughtException: read ECONNRESET date=Mon Feb 10 2020 07:23:37 GMT+0200 (South Africa Standard Time), pid=10708, uid=null, gid=null, cwd=C:\Projects\Ionic\JustIn\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v12.14.1, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustIn\ReportingJS\index.js, run], rss=82169856, heapTotal=47837184, heapUsed=43804504, external=6394910, loadavg=[0, 0, 0], uptime=2614, trace=[column=27, file=internal/stream_base_commons.js, function=TCP.onStreamRead, line=200, method=onStreamRead, native=false], stack=[Error: read ECONNRESET,     at TCP.onStreamRead (internal/stream_base_commons.js:200:27)]
+2020-02-11T05:08:12.292Z - error: uncaughtException: ENOENT: no such file or directory, open 'C:\path\to\output.pdf' date=Tue Feb 11 2020 07:08:12 GMT+0200 (South Africa Standard Time), pid=16660, uid=null, gid=null, cwd=C:\Projects\Ionic\JustIn\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v12.14.1, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustIn\ReportingJS\index.js, run], rss=89374720, heapTotal=63262720, heapUsed=50694088, external=1863780, loadavg=[0, 0, 0], uptime=63947, trace=[], stack=[Error: ENOENT: no such file or directory, open 'C:\path\to\output.pdf']
+2020-02-11T05:09:28.331Z - error: uncaughtException: EPERM: operation not permitted, open 'C:\output.pdf' date=Tue Feb 11 2020 07:09:28 GMT+0200 (South Africa Standard Time), pid=16876, uid=null, gid=null, cwd=C:\Projects\Ionic\JustIn\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v12.14.1, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustIn\ReportingJS\index.js, run], rss=91361280, heapTotal=62754816, heapUsed=56331632, external=3315534, loadavg=[0, 0, 0], uptime=64023, trace=[], stack=[Error: EPERM: operation not permitted, open 'C:\output.pdf']
+2020-02-11T06:59:33.857Z - error: uncaughtException: read ECONNRESET date=Tue Feb 11 2020 08:59:33 GMT+0200 (South Africa Standard Time), pid=11676, uid=null, gid=null, cwd=C:\Projects\Ionic\JustIn\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v12.14.1, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustIn\ReportingJS\index.js, run], rss=72667136, heapTotal=56061952, heapUsed=53113928, external=3039114, loadavg=[0, 0, 0], uptime=70629, trace=[column=27, file=internal/stream_base_commons.js, function=TCP.onStreamRead, line=200, method=onStreamRead, native=false], stack=[Error: read ECONNRESET,     at TCP.onStreamRead (internal/stream_base_commons.js:200:27)]
+2020-02-11T08:06:34.444Z - error: uncaughtException: read ECONNRESET date=Tue Feb 11 2020 10:06:34 GMT+0200 (South Africa Standard Time), pid=16288, uid=null, gid=null, cwd=C:\Projects\Ionic\JustIn\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v12.14.1, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustIn\ReportingJS\index.js, run], rss=58044416, heapTotal=51793920, heapUsed=46817360, external=2594444, loadavg=[0, 0, 0], uptime=74649, trace=[column=27, file=internal/stream_base_commons.js, function=TCP.onStreamRead, line=200, method=onStreamRead, native=false], stack=[Error: read ECONNRESET,     at TCP.onStreamRead (internal/stream_base_commons.js:200:27)]
+2020-02-12T08:24:13.548Z - error: uncaughtException: kill ENOSYS date=Wed Feb 12 2020 10:24:13 GMT+0200 (South Africa Standard Time), pid=18848, uid=null, gid=null, cwd=C:\Projects\Ionic\JustIn\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v12.14.1, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustIn\ReportingJS\index.js, run], rss=61235200, heapTotal=56098816, heapUsed=47835656, external=1830458, loadavg=[0, 0, 0], uptime=162105, trace=[column=13, file=internal/process/per_thread.js, function=process.kill, line=189, method=kill, native=false, column=15, file=C:\Projects\Ionic\JustIn\ReportingJS\node_modules\signal-exit\index.js, function=process.listener, line=95, method=listener, native=false, column=5, file=events.js, function=process.emit, line=223, method=emit, native=false], stack=[Error: kill ENOSYS,     at process.kill (internal/process/per_thread.js:189:13),     at process.listener (C:\Projects\Ionic\JustIn\ReportingJS\node_modules\signal-exit\index.js:95:15),     at process.emit (events.js:223:5)]
+2020-02-12T13:59:59.681Z - error: uncaughtException: kill ENOSYS date=Wed Feb 12 2020 15:59:59 GMT+0200 (South Africa Standard Time), pid=15392, uid=null, gid=null, cwd=C:\Projects\Ionic\JustIn\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v12.14.1, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustIn\ReportingJS\index.js, run], rss=35000320, heapTotal=59506688, heapUsed=55955264, external=1808993, loadavg=[0, 0, 0], uptime=182251, trace=[column=13, file=internal/process/per_thread.js, function=process.kill, line=189, method=kill, native=false, column=15, file=C:\Projects\Ionic\JustIn\ReportingJS\node_modules\signal-exit\index.js, function=process.listener, line=95, method=listener, native=false, column=5, file=events.js, function=process.emit, line=223, method=emit, native=false], stack=[Error: kill ENOSYS,     at process.kill (internal/process/per_thread.js:189:13),     at process.listener (C:\Projects\Ionic\JustIn\ReportingJS\node_modules\signal-exit\index.js:95:15),     at process.emit (events.js:223:5)]
+2020-02-14T15:40:26.219Z - error: uncaughtException: kill ENOSYS date=Fri Feb 14 2020 17:40:26 GMT+0200 (South Africa Standard Time), pid=18440, uid=null, gid=null, cwd=C:\Projects\Ionic\JustIn\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v12.14.1, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustIn\ReportingJS\index.js, run], rss=117649408, heapTotal=90439680, heapUsed=53270184, external=2637473, loadavg=[0, 0, 0], uptime=361068, trace=[column=13, file=internal/process/per_thread.js, function=process.kill, line=189, method=kill, native=false, column=15, file=C:\Projects\Ionic\JustIn\ReportingJS\node_modules\signal-exit\index.js, function=process.listener, line=95, method=listener, native=false, column=5, file=events.js, function=process.emit, line=223, method=emit, native=false], stack=[Error: kill ENOSYS,     at process.kill (internal/process/per_thread.js:189:13),     at process.listener (C:\Projects\Ionic\JustIn\ReportingJS\node_modules\signal-exit\index.js:95:15),     at process.emit (events.js:223:5)]
+2020-02-17T04:42:30.067Z - error: uncaughtException: read ECONNRESET date=Mon Feb 17 2020 06:42:29 GMT+0200 (South Africa Standard Time), pid=18060, uid=null, gid=null, cwd=C:\Projects\Ionic\JustIn\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v12.14.1, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustIn\ReportingJS\index.js, run], rss=82968576, heapTotal=53477376, heapUsed=50152712, external=3035472, loadavg=[0, 0, 0], uptime=580792, trace=[column=27, file=internal/stream_base_commons.js, function=TCP.onStreamRead, line=200, method=onStreamRead, native=false], stack=[Error: read ECONNRESET,     at TCP.onStreamRead (internal/stream_base_commons.js:200:27)]
+2020-02-17T08:15:17.116Z - error: uncaughtException: read ECONNRESET date=Mon Feb 17 2020 10:15:17 GMT+0200 (South Africa Standard Time), pid=4480, uid=null, gid=null, cwd=C:\Projects\Ionic\JustIn\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v12.14.1, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustIn\ReportingJS\index.js, run], rss=207806464, heapTotal=189173760, heapUsed=139922856, external=30922054, loadavg=[0, 0, 0], uptime=593551, trace=[column=27, file=internal/stream_base_commons.js, function=TCP.onStreamRead, line=200, method=onStreamRead, native=false], stack=[Error: read ECONNRESET,     at TCP.onStreamRead (internal/stream_base_commons.js:200:27)]
+2020-02-17T19:26:48.531Z - error: uncaughtException: read ECONNRESET date=Mon Feb 17 2020 21:26:48 GMT+0200 (South Africa Standard Time), pid=7748, uid=null, gid=null, cwd=C:\Projects\Ionic\JustIn\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v12.14.1, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustIn\ReportingJS\index.js, run], rss=31748096, heapTotal=57671680, heapUsed=54871624, external=1796173, loadavg=[0, 0, 0], uptime=633842, trace=[column=27, file=internal/stream_base_commons.js, function=TCP.onStreamRead, line=200, method=onStreamRead, native=false], stack=[Error: read ECONNRESET,     at TCP.onStreamRead (internal/stream_base_commons.js:200:27)]
+2020-02-17T22:42:52.859Z - error: uncaughtException: read ECONNRESET date=Tue Feb 18 2020 00:42:52 GMT+0200 (South Africa Standard Time), pid=11856, uid=null, gid=null, cwd=C:\Projects\Ionic\JustIn\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v12.14.1, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustIn\ReportingJS\index.js, run], rss=80834560, heapTotal=52428800, heapUsed=48628096, external=1805998, loadavg=[0, 0, 0], uptime=645606, trace=[column=27, file=internal/stream_base_commons.js, function=TCP.onStreamRead, line=200, method=onStreamRead, native=false], stack=[Error: read ECONNRESET,     at TCP.onStreamRead (internal/stream_base_commons.js:200:27)]
+2020-02-18T06:43:54.946Z - error: uncaughtException: connect ETIMEDOUT 41.185.8.53:21 date=Tue Feb 18 2020 08:43:54 GMT+0200 (South Africa Standard Time), pid=13584, uid=null, gid=null, cwd=C:\Projects\Ionic\JustIn\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v12.14.1, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustIn\ReportingJS\index.js, run], rss=78942208, heapTotal=51904512, heapUsed=47669112, external=1720612, loadavg=[0, 0, 0], uptime=674469, trace=[column=16, file=net.js, function=TCPConnectWrap.afterConnect [as oncomplete], line=1134, method=afterConnect [as oncomplete], native=false], stack=[Error: connect ETIMEDOUT 41.185.8.53:21,     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1134:16)]
+2020-02-18T11:43:36.524Z - error: uncaughtException: kill ENOSYS date=Tue Feb 18 2020 13:43:36 GMT+0200 (South Africa Standard Time), pid=15828, uid=null, gid=null, cwd=C:\Projects\Ionic\JustIn\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v12.14.1, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustIn\ReportingJS\index.js, run], rss=82644992, heapTotal=51904512, heapUsed=48927280, external=1783877, loadavg=[0, 0, 0], uptime=692450, trace=[column=13, file=internal/process/per_thread.js, function=process.kill, line=189, method=kill, native=false, column=15, file=C:\Projects\Ionic\JustIn\ReportingJS\node_modules\signal-exit\index.js, function=process.listener, line=95, method=listener, native=false, column=5, file=events.js, function=process.emit, line=223, method=emit, native=false], stack=[Error: kill ENOSYS,     at process.kill (internal/process/per_thread.js:189:13),     at process.listener (C:\Projects\Ionic\JustIn\ReportingJS\node_modules\signal-exit\index.js:95:15),     at process.emit (events.js:223:5)]
+2020-02-21T07:16:44.675Z - error: uncaughtException: kill ENOSYS date=Fri Feb 21 2020 09:16:44 GMT+0200 (South Africa Standard Time), pid=9840, uid=null, gid=null, cwd=C:\Projects\Ionic\JustInAmatec\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v10.16.0, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustInAmatec\ReportingJS\index.js], rss=15216640, heapTotal=69636096, heapUsed=62302728, external=433386, loadavg=[0, 0, 0], uptime=622153, trace=[column=13, file=internal/process/per_thread.js, function=process.kill, line=198, method=kill, native=false, column=15, file=C:\Projects\Ionic\JustInAmatec\ReportingJS\node_modules\signal-exit\index.js, function=process.listener, line=95, method=listener, native=false, column=13, file=events.js, function=process.emit, line=198, method=emit, native=false], stack=[Error: kill ENOSYS,     at process.kill (internal/process/per_thread.js:198:13),     at process.listener (C:\Projects\Ionic\JustInAmatec\ReportingJS\node_modules\signal-exit\index.js:95:15),     at process.emit (events.js:198:13)]
+2020-02-24T04:32:44.478Z - error: uncaughtException: read ECONNRESET date=Mon Feb 24 2020 06:32:43 GMT+0200 (South Africa Standard Time), pid=28000, uid=null, gid=null, cwd=C:\Projects\Ionic\JustInAmatec\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v10.16.0, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustInAmatec\ReportingJS\index.js], rss=29085696, heapTotal=67014656, heapUsed=57938704, external=493037, loadavg=[0, 0, 0], uptime=871512, trace=[column=27, file=internal/stream_base_commons.js, function=TCP.onStreamRead, line=111, method=onStreamRead, native=false], stack=[Error: read ECONNRESET,     at TCP.onStreamRead (internal/stream_base_commons.js:111:27)]
+2020-02-25T19:25:38.690Z - error: uncaughtException: read ECONNRESET date=Tue Feb 25 2020 21:25:36 GMT+0200 (South Africa Standard Time), pid=26256, uid=null, gid=null, cwd=C:\Projects\Ionic\JustInAmatec\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v10.16.0, argv=[C:\Program Files\nodejs\node.exe, C:\Projects\Ionic\JustInAmatec\ReportingJS\index.js], rss=18923520, heapTotal=70684672, heapUsed=63449424, external=585625, loadavg=[0, 0, 0], uptime=1011485, trace=[column=27, file=internal/stream_base_commons.js, function=TCP.onStreamRead, line=111, method=onStreamRead, native=false], stack=[Error: read ECONNRESET,     at TCP.onStreamRead (internal/stream_base_commons.js:111:27)]
+2020-03-19T16:16:18.795Z - error: uncaughtException: read ECONNRESET date=Thu Mar 19 2020 18:16:18 GMT+0200 (South Africa Standard Time), pid=12676, uid=null, gid=null, cwd=c:\Projects\Ionic\JustInAmatec\ReportingJS, execPath=C:\Program Files\nodejs\node.exe, version=v10.16.0, argv=[C:\Program Files\nodejs\node.exe, c:\Projects\Ionic\JustInAmatec\ReportingJS\index.js], rss=154198016, heapTotal=72298496, heapUsed=63916496, external=6712164, loadavg=[0, 0, 0], uptime=65962, trace=[column=27, file=internal/stream_base_commons.js, function=TCP.onStreamRead, line=111, method=onStreamRead, native=false], stack=[Error: read ECONNRESET,     at TCP.onStreamRead (internal/stream_base_commons.js:111:27)]

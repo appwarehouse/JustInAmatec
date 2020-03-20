@@ -5,6 +5,7 @@ if (process.env.JSREPORT_CLI) {
   module.exports = jsreport
 } else {
   jsreport.init().then(() => {
+    console.log("running")
     // running
   }).catch((e) => {
     // error during startup

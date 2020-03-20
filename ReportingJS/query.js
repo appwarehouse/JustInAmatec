@@ -17,9 +17,26 @@ module.exports = function (app, bigquery) {
         //runQuery method fired
         runQuery(site,start,end,devices).then((results)=>{
             //when complete, return the results from bigquery
-            res.send(results)
+            res.send(JSON.stringify(results))
         })
       
+    });
+
+    //query and generate the report from external source
+    app.get('/query/:allparams/:reportname',(req, res) => {
+
+        let allparams = JSON.parse(req.params.allparams);
+        let site = allparams.site;
+        let start = allparams.start;
+        let end = allparams.end;
+        let devices = allparams.devices
+        //runQuery method fired
+        runQuery(site,start,end,devices).then((results) =>{
+
+            //convert the report to pdf
+
+        })
+
     });
 
     // asynchronous funtion to retrieve data from google
@@ -49,7 +66,14 @@ module.exports = function (app, bigquery) {
             }
             
         })
-        const query = "SELECT CAST((EntryDateTime) AS STRING),CAST((ExitDateTime) AS STRING),driver_card_photo_url,exit_driver_card_photo_url,exit_driver_name,exit_driver_id_no,entry_hour,entry_minute,exit_hour,exit_minute,device_name,VehicleDetails,DriverDetails,site_name  FROM `boomin-3f5a2.JustIN.in_out_report` where site_id = '" + site + "' "+devicesString+" and (entry_time between TIMESTAMP_SECONDS(" + Math.floor(start / 1000) + ") and TIMESTAMP_SECONDS(" + Math.floor(end / 1000) + ")) limit 1000"
+        const query = "SELECT CAST((EntryDateTime) AS STRING),CAST((ExitDateTime) AS STRING), " +
+        "driver_card_photo_url, exit_driver_card_photo_url, exit_driver_name, exit_driver_id_no, " +
+        "entry_hour, entry_minute, exit_hour, exit_minute, device_name, exit_device_name, " +
+        "VehicleDetails, exit_VehicleDetails, DriverDetails, exit_DriverDetails, site_name " + 
+        "FROM `boomin-3f5a2.JustIN.in_out_report` " + 
+        "WHERE site_id = '" + site + "' " + devicesString + " " +
+        "AND (entry_time BETWEEN TIMESTAMP_SECONDS(" + Math.floor(start / 1000) + ") " + 
+        "AND TIMESTAMP_SECONDS(" + Math.floor(end / 1000) + ")) limit 1000"
         // For all options, see https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query
         // Set options for query
         const options = {
@@ -57,9 +81,7 @@ module.exports = function (app, bigquery) {
           // Location must match that of the dataset(s) referenced in the query.
           location: 'US',
         };
-
-        console.log(query)
-      
+     
         // Run the query as a job
         let [job] = await bigquery.createQueryJob(options);
       
@@ -70,8 +92,9 @@ module.exports = function (app, bigquery) {
         rows.forEach(row => {
           results.push(row);
         });
-      
         //return string of all results 
-        return JSON.stringify(results);
+        //return JSON.stringify(results);
+
+        return results;
       }
 }

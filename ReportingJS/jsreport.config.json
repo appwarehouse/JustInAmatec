@@ -2,10 +2,10 @@
     "httpPort": 3250,
     "allowLocalFilesAccess": true,
     "templatingEngines": {
-        "timeout": 10000
+        "timeout": 1800000 
     },
     "chrome": {
-        "timeout": 240000,
+        "timeout": 1800000 ,
         "launchOptions": {
             "args": ["--no-sandbox"]
         }
@@ -25,7 +25,10 @@
             "createSamples": false
         },
         "scripts": {
-            "timeout": 30000
-        }
+            "timeout": 1800000 
+        },
+        "tasks": {
+            "timeout": 1800000 
+          }
     }
 }
