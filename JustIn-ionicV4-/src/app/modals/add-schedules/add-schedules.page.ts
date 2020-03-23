@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NavParams, AlertController, ToastController, ModalController } from '@ionic/angular';
 import {database} from 'firebase'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-add-schedules',
@@ -13,7 +14,9 @@ export class AddSchedulesPage implements OnInit {
   siteslist = [];
   selectedSite;
   Frequency;
+  report;
   newRecipient;
+  events = [];
   time = new Date().toISOString();
   selectedreportLength;
   reportLengthOptions = ['Today','Previous Day','Weekly Report'];
@@ -44,6 +47,33 @@ export class AddSchedulesPage implements OnInit {
    }
 
   ngOnInit() {
+
+     // Loading Report_types
+     let report_types = firebase
+     .database()
+     .ref('report_type').on('value', (Snapshot1) => {
+
+     //convert to array
+     let count = 0;
+     Snapshot1.forEach(row => {
+      if(count === 0){
+       this.events.push({ name: row.val(), value: "InOut" });
+      } else if(count === 1){
+       this.events.push({ name: row.val(), value: "AllEvents" });
+      } else if(count === 2){
+       this.events.push({ name: row.val(), value: row.val() });
+      }else if(count === 3){
+       this.events.push({ name: row.val(), value: "StillonSite" });
+      }
+      count++;
+     })
+     /* console.log(item); */
+     /* this.setDevicesString.push(item.display_name);
+     this.devices.push(item) */
+
+   })
+
+
     this.emailForm = this.formBuilder.group({
       'newRecipient': [this.newRecipient,[
         Validators.required,
@@ -161,7 +191,8 @@ export class AddSchedulesPage implements OnInit {
         rate_time: new Date(this.time).toISOString(),
         report_length: this.selectedreportLength,
         siteUID: this.selectedSite.key,
-        recipients: this.recipients
+        recipients: this.recipients,
+      report_type: this.report
       }
   
       this.scheduleList.push(obj);

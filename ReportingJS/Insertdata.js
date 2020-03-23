@@ -57,21 +57,9 @@ module.exports = function (app, bigquery) {
                 else{
                     console.log("No match for " + licNum + " using Date.now " + Date.now());
                     GetMatchForGateExit(entryTime, Date.now(), licNum, siteId, firebase_entry_insert_id);
-                }
-                
-
-                
-                /*for (var i = 1 in GateEnter){
-                        NextEntry_time: GateEnter[i].entry_time, 
-                        vehicle_licence_no: GateEnter[i].vehicle_licence_no, 
-                        firebase_entry_insert_id: GateEnter[i].firebase_entry_insert_id})
-                }
-                GetExitTime();*/
-               
-                
+                }               
             }
 
-            /* Get ExitTime */
             /* Get Exit Time */
             async function GetExitTime() {
                 console.log('Getting all Exit time.................');
@@ -174,8 +162,7 @@ module.exports = function (app, bigquery) {
                 for(i in updatequeries)
                     {
                         try
-                        {
-                            
+                        {                            
                             if (updatequeries.length > 0)
                             {
                                 //join the queries in the array to push to Big Qury in line with the linits

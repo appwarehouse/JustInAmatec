@@ -1,3 +1,6 @@
+const { report_processData } = require("././modules/report_processData");
+const { report_inout } = require("./modules/report_inout");
+
 //import all needed modules from node_modules
 const express = require('express')
 const app = express();
@@ -41,8 +44,11 @@ const bqoptions = {
 
 //initialize bigquery with options from above
 const bigquery = new BigQuery(bqoptions);
+exports.bigquery = bigquery;
 let exitCount = 0;
+exports.exitCount = exitCount;
 let enterCount = 0;
+exports.enterCount = enterCount;
 
 //initialize a list that is going to store all references to the cron schedules being run in the project
 let cronList = [];
@@ -50,9 +56,7 @@ let cronList = [];
 // configure express to accept JSON formatted data, and also allow CORS from all domains
 
 app.use(express.json({
-
     limit: '256MB'
-
 }));
 
 // set options for date formatting using tolocale
@@ -66,12 +70,9 @@ let options = {
     second: '2-digit'
 
 };
-// BodyParse to exposes various factories to create middlewares
-/* app.use(bodyParser());
-app.use(bodyParser({limit: '750mb'}));
-app.use(bodyParser.urlencoded({limit: '750mb'})); */
 
-app.use(function(req, res, next) {
+
+app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
@@ -81,7 +82,6 @@ app.use(function(req, res, next) {
 app.use(cors({
     credentials: true
 }));
-
 
 const Ftp = new jsftp({
     host: "ftp.just-in.co.za",
@@ -112,12 +112,12 @@ firebaseapp.database().ref('events').on('value', (Snapshot) => {
 })
 
 
-
 function main() {
     try {
         // reference the schedule node and listen for any changes continously
         firebaseapp.database().ref('schedule').on('value', (Snapshot) => {
-            // if cron schedules exist loop through and stop each before starting new schedules to avoid overlap
+            // if cron schedules exist loop through and stop each 
+            // before starting new schedules to avoid overlap
             if (cronList.length > 0) {
                 cronList.forEach((item, pos) => {
                     item.destroy();
@@ -132,7 +132,7 @@ function main() {
                             // start cron using Johannesburg timezone
                             this["marker_" + obj.siteUID] = cron.schedule(obj.interval, () => {
                                 console.log('running cron job for ' + obj.display_name + '.');
-                                run(obj.siteUID, obj.display_name, obj.recipients, obj.report_length)
+                                run(obj.siteUID, obj.display_name, obj.recipients, obj.report_length, obj.report_type)
                             }, {
                                 timezone: "Africa/Johannesburg"
                             });
@@ -151,7 +151,7 @@ function main() {
                     // start cron using Johannesburg timezone
                     this["marker_" + obj.siteUID] = cron.schedule(obj.interval, () => {
                         console.log('running cron job for ' + obj.display_name + '.');
-                        run(obj.siteUID, obj.display_name, obj.recipients, obj.report_length)
+                        run(obj.siteUID, obj.display_name, obj.recipients, obj.report_length, obj.report_type)
 
                     }, {
                         timezone: "Africa/Johannesburg"
@@ -170,7 +170,7 @@ function main() {
     }
 }
 
-function run(site, sitename, recipients, length) {
+function run(site, sitename, recipients, length, reports = null) {
     try {
         exitCount = 0;
         enterCount = 0;
@@ -219,206 +219,62 @@ function run(site, sitename, recipients, length) {
             end = enddate
         }
 
-        //run query and wait for results
-        runQuery(site, start, end).then((data) => {
-            // declare string to later concatenate to the html to produce a table of results
-            let masterString = ""
-            data.sort(function(a, b) {
-                return new Date(a.f0_).getTime() - new Date(b.f0_).getTime()
-            });
-            if (data.length === 0) {
-                //no data in report send email to recipients
-                try {
-                    let message = "<h2>In Out Report</h2><p>" +
-                        "Your report for " + sitename + ", date range <strong>" + start + "</strong> to <strong>" + end +
-                        "</strong> had no records.</p>" +
-                        "<p><strong>Kind Regards<br>Just-In Reporting</strong></p>" // html body
-                    sendMail(recipients, sitename, start, end, '', message);
-                    console.log(site + "has no data for " + start + " to " + end);
-                } catch (e) {
-                    console.log("Error sending no records email")
-                    console.log(e.stack)
-                }
-            }
-            data.forEach((result, pos) => {
-                if (result.exit_device_name) {
-                    exitCount++;
-                }
-                if (result.device_name) {
-                    enterCount++;
-                }
-                // construct data and and time information
-                let entrydate = new Date(result.f0_).getDate() + '/' + (new Date(result.f0_).getMonth() + 1) + '/' + new Date(result.f0_).getFullYear()
-                let entryTime = new Date(result.f0_).toLocaleTimeString();
-                let exitdate;
-                let minsOnSite;
-                let exitTime;
-                //split vehicle details to show on page line by line
-                let VehicleDetailsSplit = result.VehicleDetails.split("/")
-                result.VehicleDetailsSplit = VehicleDetailsSplit
-                //if there is no exit date/time
-                if (!result.f1_) {
-                    exitdate = "No Data"
-                    minsOnSite = "No Data"
-                    exitTime = "No Data"
-                }
-                //if the exit time is present
-                else {
-                    exitdate = new Date(result.f1_).getDate() + '/' + (new Date(result.f1_).getMonth() + 1) + '/' + new Date(result.f1_).getFullYear()
-                    minsOnSite = Math.floor(((new Date(result.f1_) - new Date(result.f0_)) / 1000) / 60)
-                    exitTime = new Date(result.f1_).toLocaleTimeString('en-GB');
-                }
-                if (!result.device_name) {
-                    result.DriverDetails = "No Device Data"
-                }
-                //if there are no exit device details
-                if (!result.exit_device_name) {
-                    result.exit_device_name = "No Device Data"
-                }
-                //if there are no driver details
-                if (!result.DriverDetails) {
-                    result.DriverDetails = "No Driver Data"
-                }
-                //if there are no exit driver details
-                if (!result.exit_DriverDetails) {
-                    result.exit_DriverDetails = "No Driver Data"
-                }
-                //if there are no exit vehicle details
-                if (!result.exit_VehicleDetails) {
-                    result.exit_VehicleDetails = "No Vehicle Data"
-                }
-                //if there is no exit driver card url, replace with placeholder image
-                if (!result.exit_driver_card_photo_url) {
-                    result.exit_driver_card_photo_url = "https://via.placeholder.com/150"
-                }
-                if (!result.driver_card_photo_url) {
-                    result.driver_card_photo_url = "https://via.placeholder.com/150"
-                }
-                //concatenate results
-                //if there is no driver data, use driver details object, else use the split list to show line by line
-                if (result.DriverDetails === "No Driver Data") {
-                    masterString = masterString.concat(`
-          <tr>
-            <td style="vertical-align: top; text-align: left">
-                <strong>` + result.device_name + `</strong>
-            </td>
-            <td style="vertical-align: top; text-align: left">
-                Entry
-            </td>
-            <td style="vertical-align: top; text-align: left">
-            ` + entrydate + `
-            </td> 
-            <td style="vertical-align: top; text-align: left">
-            ` + entryTime + `
-            </td>
-            <td rowspan="2" style="vertical-align: top; text-align: left">
-            ` + minsOnSite + `
-            </td>
-            <td style="vertical-align: top; text-align: left" class="format-multiline">` + result.VehicleDetails + `</td>
-            <td style="vertical-align: top; text-align: left" class="format-multiline">` + result.DriverDetails + `</td>
-            <td><img src=` + result.driver_card_photo_url + ` style="width: 80px"></td>
-          </tr>
-          <tr>
+        if (reports === null) {
+            reports = ["in out report"]
+        }
 
-            <td style="vertical-align: top; text-align: left">
-              <strong>` + result.exit_device_name + `</strong>
-            </td>
-            <td style="vertical-align: top; text-align: left">
-              Exit
-            </td>
-            <td style="vertical-align: top; text-align: left">
-            ` + exitdate + `
-            </td>
-            <td style="vertical-align: top; text-align: left">
-            ` + exitTime + `
-            </td>
-            <td style="vertical-align: top; text-align: left" class="format-multiline">` + result.exit_VehicleDetails + `</td>                    
-            <td style="vertical-align: top; text-align: left" class="format-multiline">` + result.exit_DriverDetails + `</td>
-            <td><img src=` + result.exit_driver_card_photo_url + ` style="width: 80px"></td>
-          </tr>`)
-                } else {
-                    //not sure if this else bloc serves a purpose might need to remove this 
-                    //Ishe
-                    //29 Jan 2020
-                    masterString = masterString.concat(`
-          <tr>
-            <td style="vertical-align: top; text-align: left">
-                <strong>` + result.device_name + `</strong>
-            </td>
-            <td style="vertical-align: top; text-align: left">
-                Entry
-            </td>
-            <td style="vertical-align: top; text-align: left">
-            ` + entrydate + `
-            </td>
-            <td style="vertical-align: top; text-align: left">
-            ` + entryTime + `
-            </td>
-            <td rowspan="2" style="vertical-align: top; text-align: left">
-            ` + minsOnSite + `
-            </td>
-            <td style="vertical-align: top; text-align: left" class="format-multiline">` + result.VehicleDetails + `</td>
-            <td style="vertical-align: top; text-align: left" class="format-multiline">` + result.DriverDetails + `</td>
-            <td><img src=` + result.driver_card_photo_url + ` style="width: 80px"></td>
-          </tr>
-          <tr>
-            <td style="vertical-align: top; text-align: left">
-              <strong>` + result.device_name + `</strong>
-            </td>
-            <td style="vertical-align: top; text-align: left">
-                Exit
-            </td>
-            <td style="vertical-align: top; text-align: left">
-            ` + exitdate + `
-            </td>
-            <td style="vertical-align: top; text-align: left">
-            ` + exitTime + `
-            </td>
-            <td style="vertical-align: top; text-align: left" class="format-multiline">` + result.exit_VehicleDetails + `</td>            
-            <td style="vertical-align: top; text-align: left" class="format-multiline">` + result.exit_DriverDetails + `</td>
-            <td><img src=` + result.exit_driver_card_photo_url + ` style="width: 80px"></td>
-          </tr>`)
+        if (reports != null) {
+            let reportsToRun = reports;
+            reportsToRun.forEach(report => {
+
+                switch (report.toLowerCase()) {
+                    case "in out report":
+                        //run query and wait for results 
+                        report_inout(site, start, end).then((data) => {
+                            // declare string to later concatenate to the html to produce a table of results
+                            let masterString = ""
+                            data.sort(function (a, b) {
+                                return new Date(a.f0_).getTime() - new Date(b.f0_).getTime()
+                            });
+                            if (data.length === 0) {
+                                //no data in report send email to recipients
+                                noReportResults(sitename, start, end, recipients, site);
+                            }
+                            else {
+                                //process the report data
+                                var htmlReport = report_processData(data)
+                            }
+                        })
+                        break;
+                    case "still on site":
+
+                        break;
+
+
                 }
-                if (pos === data.length - 1) {
-                    //when complete, generate report
-                    generateReport(masterString, sitename, site, recipients, start, end);
-                }
-            })
-        })
+
+            });
+        }
+
+
     } catch (e) {
         console.log("Error in run");
         console.log(e.stack);
     }
 }
-async function runQuery(site, start, end) {
+
+function noReportResults(sitename, start, end, recipients, site, reportTypeName) {
     try {
-        const query = "SELECT CAST((EntryDateTime) AS STRING),CAST((ExitDateTime) AS STRING), " +
-            "driver_card_photo_url, exit_driver_card_photo_url, exit_driver_name, exit_driver_id_no, " +
-            "entry_hour, entry_minute, exit_hour, exit_minute, device_name, exit_device_name, " +
-            "VehicleDetails, exit_VehicleDetails, DriverDetails, exit_DriverDetails, site_name " +
-            "FROM `boomin-3f5a2.JustIN.in_out_report` " +
-            "WHERE site_id = '" + site + "' " +
-            "AND (entry_time BETWEEN TIMESTAMP_SECONDS(" + Math.floor(start / 1000) + ") " +
-            "AND TIMESTAMP_SECONDS(" + Math.floor(end / 1000) + ")) limit 1000"
-        // For all options, see https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query
-        const options = {
-            query: query,
-            // Location must match that of the dataset(s) referenced in the query.
-            location: 'US',
-        };
-        // Run the query as a job
-        let [job] = await bigquery.createQueryJob(options);
-        const [rows] = await job.getQueryResults();
-        // Print the results
-        let results = []
-        rows.forEach(row => {
-            results.push(row);
-        });
-        return results;
-    } catch (e) {
-        console.log("Error in query execution");
+        let message = "<h2>" + reportTypeName + "</h2><p>" +
+            "Your report for " + sitename + ", date range <strong>" + start + "</strong> to <strong>" + end +
+            "</strong> had no records.</p>" +
+            "<p><strong>Kind Regards<br>Just-In Reporting</strong></p>"; // html body
+        sendMail(recipients, sitename, start, end, '', message);
+        console.log(site + "has no data for " + start + " to " + end);
+    }
+    catch (e) {
+        console.log("Error sending no records email");
         console.log(e.stack);
-        return null
     }
 }
 
@@ -545,6 +401,7 @@ function generateReport(masterString, sitename, site, recipients, start, end) {
         console.log(e.stack)
     }
 }
+exports.generateReport = generateReport;
 async function sendMail(recipients, sitename, start, end, remotefile, message) {
     try {
         if (message === null) {

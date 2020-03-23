@@ -6,7 +6,6 @@
                     Add Schedule
                 </label>
             </div>
-          
         </ion-title>
         <ion-buttons slot="end">
             <ion-button (click)="dismissModal()">Close</ion-button>
@@ -22,6 +21,12 @@
                 <ion-select [interfaceOptions]="customSiteOptions" style="color: #fcfff9" [(ngModel)]="selectedSite">
                     <ion-select-option *ngFor="let site of siteslist" [value]="site">{{site.display_name}}</ion-select-option>
                   </ion-select>
+              </ion-item>
+              <ion-item class="backer">
+                <ion-label style="color: #fcfff9">Report Type: </ion-label>
+                <ion-select [interfaceOptions]="customTypeOption" multiple={true} style="color: #fcfff9" [(ngModel)]="report">
+                  <ion-select-option *ngFor="let event of events" value="{{event.name}}" checked >{{event.name}}</ion-select-option>
+                </ion-select>
               </ion-item>
               <ion-item class="backer">
                   <ion-label style="color: #fcfff9">Job Frequency: </ion-label>

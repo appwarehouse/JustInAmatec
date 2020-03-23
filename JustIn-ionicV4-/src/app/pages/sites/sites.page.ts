@@ -143,6 +143,8 @@ export class SitesPage implements OnInit {
     });
     
   }
+
+  
   
   splitView(){
     this.splitter.setSplit();

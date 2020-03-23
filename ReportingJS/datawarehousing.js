@@ -1,23 +1,27 @@
-module.exports = function(cron, bigquery) {
+module.exports = function (cron, bigquery) {
+
+    var jobsTracking = false;
     try {
-        var jobsTracking = false;
         var CurrentDate;
+        var CurrentTime;
         // Run cron job to update Warehouse database (Bigquery)
         cron.schedule('* * * * *', () => {
             //CurrentDate = new Date().getTime();
             if (jobsTracking === false) {
                 //testing 
                 CurrentDate = new Date().toISOString();
+                CurrentTime =  Date.now()
                 console.log("Date is " + CurrentDate)
-                UpdateTable();
+                //UpdateTable();
             } else if (jobsTracking === true) {
-                console.log('Other Jobs its still running')
+                console.log('Another job is still running.')
             }
         });
         // Method to insert all entries that are not in warehouse table
-async function UpdateTable() {
-console.log('Cron job started, to find all entries that are not in warehouse table but in in_out_unique')
-    const query = `INSERT INTO \`boomin-3f5a2.JustIN.IN_OUT_EVENT_WAREHOUSE\` ( entry_time, site_name, site_id, firebase_entry_insert_id, device_id, device_name, vehicle_registration, vehicle_color, vehicle_licence_no, vin_number, vehicle_description, vehicle_engine_no, vehicle_licence_disk_no, vehicle_model, vehicle_make, driver_name, driver_id_no, driver_card_gender, driver_card_photo_url,processed_exit )
+        async function UpdateTable() {
+            jobsTracking = true
+            console.log('Insert new gate entries that are missing from warehouse.')
+            const query = `INSERT INTO \`boomin-3f5a2.JustIN.IN_OUT_EVENT_WAREHOUSE\` ( entry_time, site_name, site_id, firebase_entry_insert_id, device_id, device_name, vehicle_registration, vehicle_color, vehicle_licence_no, vin_number, vehicle_description, vehicle_engine_no, vehicle_licence_disk_no, vehicle_model, vehicle_make, driver_name, driver_id_no, driver_card_gender, driver_card_photo_url,processed_exit )
     SELECT device_timestamp , site_name, site_id, firebase_insert_id, device_id, device_name, vehicle_reg, vehicle_color, vehicle_licence_no, vin, vehicle_description, vehicle_engine_no, vehicle_licence_disk_no, vehicle_model, vehicle_make, driver_name, driver_id_no, driver_card_gender, driver_card_photo_url , false as processed_exit
     FROM \`boomin-3f5a2.JustIN.IN_OUT_unique\` 
     where firebase_insert_id NOT IN (SELECT firebase_entry_insert_id from \`boomin-3f5a2.JustIN.IN_OUT_EVENT_WAREHOUSE\`)
@@ -31,17 +35,15 @@ console.log('Cron job started, to find all entries that are not in warehouse tab
             };
             // Run the query as a job
             const [job] = await bigquery.createQueryJob(options);
-            console.log(`Job ${job.id} starte .`);
-            console.log(`Updating table ........`);
             // Wait for the query to finish
             const [rows] = await job.getQueryResults();
-            console.log(`Done Updating table ........`);
+            console.log(`Done inserting new Gate Entry records`);
             processed_exit_update()
         }
         // Processed exit update if entry_time is greater or equal to 30 days
         async function processed_exit_update() {
             jobsTracking = true;
-            console.log('Cron job started, to update Processed exit to true if entry_time is greater or equal to 30 days ........')
+            console.log('Update Processed exit to true if entry_time is greater or equal to 30 days ........')
             const query = `update \`boomin-3f5a2.JustIN.IN_OUT_EVENT_WAREHOUSE\`
     set processed_exit = true where DATE_DIFF(CURRENT_DATE(), Date(entry_time), Day) >= 30`;
             const options = {
@@ -51,11 +53,9 @@ console.log('Cron job started, to find all entries that are not in warehouse tab
             };
             // Run the query as a job
             const [job] = await bigquery.createQueryJob(options);
-            console.log(`Job ${job.id} started.`);
-            console.log(`Updating Processed exit to true if entry_time is greater or equal to 30 days........`);
             // Wait for the query to finish
             const [rows] = await job.getQueryResults();
-            console.log(`Done Updating Processed exit to true if entry_time is greater or equal to 30 days ........`);
+            console.log(`Updating Processed exit done ........`);
             GetExitTime();
         }
 
@@ -82,9 +82,8 @@ console.log('Cron job started, to find all entries that are not in warehouse tab
             };
             // Run the query as a job
             const [job] = await bigquery.createQueryJob(options);
-            console.log(`Job ${job.id} starte 
-                  .`);
-            console.log(`Loading GateEnter Data ........`);
+            console.log(`Job ${job.id} started.`);
+            console.log(`Loading GateEnter Data for matching ........`);
             // Wait for the query to finish
             const [rows] = await job.getQueryResults();
 
@@ -106,7 +105,7 @@ console.log('Cron job started, to find all entries that are not in warehouse tab
         }
         /* Getting the next GateEnter */
         async function NextGateEnter(licNum, siteId, entryTime, firebase_entry_insert_id) {
-            //console.log('Getting NextEntry Data................');
+            jobsTracking = true
             var myEntries = [];
             // Filtering data to get next gate enter
             myEntries = GateEnter.filter(entry =>
@@ -115,23 +114,14 @@ console.log('Cron job started, to find all entries that are not in warehouse tab
                 entry.entry_time > entryTime);
             if (myEntries.length > 0) {
                 console.log("Entry " + entryTime + " matched for " + myEntries[0].vehicle_licence_no +
-                    " count " + myEntries.length + " NextEntry " + myEntries[0].entry_time);
+                    " count (of all entries) " + myEntries.length + " NextEntry " + myEntries[0].entry_time);
                 GetMatchForGateExit(entryTime, myEntries[0].entry_time, licNum, siteId, firebase_entry_insert_id);
             } else {
-                console.log("No match for " + licNum + " using Date.now " + Date.now());
-                GetMatchForGateExit(entryTime, Date.now(), licNum, siteId, firebase_entry_insert_id);
+                console.log("No next entry match for " + licNum + " using start time of job " + CurrentTime);
+                GetMatchForGateExit(entryTime, CurrentTime, licNum, siteId, firebase_entry_insert_id);
             }
-
-            /*for (var i = 1 in GateEnter){
-                    NextEntry_time: GateEnter[i].entry_time, 
-                    vehicle_licence_no: GateEnter[i].vehicle_licence_no, 
-                    firebase_entry_insert_id: GateEnter[i].firebase_entry_insert_id})
-            }
-            GetExitTime();*/
 
         }
-        /* Get ExitTime */
-        /* Get Exit Time */
         async function GetExitTime() {
             jobsTracking = true;
             console.log('Process to get matching gateExit with GateEnter started.............');
@@ -184,9 +174,9 @@ console.log('Cron job started, to find all entries that are not in warehouse tab
             GettingEntryTimes();
 
         }
-
         // Getting Match for GateExit
         async function GetMatchForGateExit(EntryTime, NextEntryTime, vehicle_licence_no, SiteId, firebase_entry_insert_id) {
+            jobsTracking = true
             var MatchGateExit = [];
             let count = 0;
             MatchGateExit = UpdateWarehouse.filter(getMatch => getMatch.exit_vehicle_licence_no === vehicle_licence_no &&
@@ -246,10 +236,10 @@ console.log('Cron job started, to find all entries that are not in warehouse tab
                             location: 'US',
                         };
                         // Run the query as a job
-                        /*const [job] = await bigquery.createQueryJob(options);
+                        const [job] = await bigquery.createQueryJob(options);
                         console.log(`Job ${job.id} started.`);
                         // Wait for the query to finish
-                        const [rows] = await job.getQueryResults();*/
+                        const [rows] = await job.getQueryResults();
                     }
 
                 } catch (e) {
@@ -261,21 +251,30 @@ console.log('Cron job started, to find all entries that are not in warehouse tab
 
         }
 
-
         // Inserting all GateExit that do not have Gate Entry to warehouse table 
         async function GateExit_Insert() {
             jobsTracking = true;
             console.log('Inserting all GateExit that doesnt have GateEnter');
-            const query = `INSERT INTO \`boomin-3f5a2.JustIN.IN_OUT_EVENT_WAREHOUSE\` ( exit_time, firebase_exit_insert_id, exit_device_id, exit_device_name, exit_vehicle_registration ,exit_vehicle_color,exit_vehicle_date_of_expiry,exit_vehicle_licence_no,exit_vin_number,
-          exit_vehicle_description,
-          exit_vehicle_engine_no,
-          exit_vehicle_licence_disk_no,
-          exit_vehicle_model, 
-          exit_vehicle_make,
-          exit_driver_name,
-          exit_driver_id_no,
-          exit_driver_card_gender,
-          exit_driver_card_photo_url, processed_exit)
+            const query = `INSERT INTO \`boomin-3f5a2.JustIN.IN_OUT_EVENT_WAREHOUSE\` 
+            ( exit_time, 
+                firebase_exit_insert_id, 
+                exit_device_id, 
+                exit_device_name, 
+                exit_vehicle_registration,
+                exit_vehicle_color,
+                exit_vehicle_date_of_expiry,
+                exit_vehicle_licence_no,
+                exit_vin_number,
+                exit_vehicle_description,
+                exit_vehicle_engine_no,
+                exit_vehicle_licence_disk_no,
+                exit_vehicle_model, 
+                exit_vehicle_make,
+                exit_driver_name,
+                exit_driver_id_no,
+                exit_driver_card_gender,
+                exit_driver_card_photo_url, 
+                processed_exit)
           select device_timestamp, 
           firebase_insert_id, 
           device_id, 
@@ -290,7 +289,7 @@ console.log('Cron job started, to find all entries that are not in warehouse tab
           vehicle_licence_disk_no, 
           vehicle_model, 
           vehicle_make, 
-          device_name,
+          driver_name,
           driver_id_no, 
           driver_card_gender, 
           driver_card_photo_url,
@@ -315,5 +314,9 @@ console.log('Cron job started, to find all entries that are not in warehouse tab
 
     } catch (e) {
         next(e)
+    }
+    finally
+    {
+        jobsTracking = false;
     }
 }

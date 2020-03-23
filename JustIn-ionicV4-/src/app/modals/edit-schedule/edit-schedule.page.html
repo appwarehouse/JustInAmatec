@@ -21,6 +21,12 @@
                 <ion-label style="color: #fcfff9">Site Name: {{scheduleItem.display_name}}</ion-label>
               </ion-item>
               <ion-item class="backer">
+                <ion-label style="color: #fcfff9">Report Type: </ion-label>
+                <ion-select   multiple="true" style="color: #fcfff9" [(ngModel)]="report_type" [value]='report_type' >
+                  <ion-select-option *ngFor="let event of events" value="{{event.name}}" >{{event.name}}</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-item class="backer">
                   <ion-label style="color: #fcfff9">Job Frequency: </ion-label>
                   <ion-select [interfaceOptions]="customFrequencyOptions" style="color: #fcfff9" [(ngModel)]="Frequency">
                     <ion-select-option *ngFor="let freq of frequencies" value="{{freq.expression}}" [selected]="setFreqencyExpressions">{{freq.display_name}}</ion-select-option>
@@ -36,8 +42,7 @@
                         <ion-select-option *ngFor="let length of reportLengthOptions" value="{{length}}">{{length}}</ion-select-option>
                       </ion-select>
                     </ion-item>
-                  
-                  
+                
                   </ion-card-content>
     </ion-card>
     <ion-list class="backer">
