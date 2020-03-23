@@ -1,5 +1,3 @@
-const { report_processData } = require("././modules/report_processData");
-const { report_inout } = require("./modules/report_inout");
 
 //import all needed modules from node_modules
 const express = require('express')
@@ -41,6 +39,8 @@ const bqoptions = {
     projectId: 'boomin-3f5a2',
 };
 
+const { report_processData } = require("././modules/report_processData");
+const { report_inout } = require("./modules/report_inout");
 
 //initialize bigquery with options from above
 const bigquery = new BigQuery(bqoptions);
@@ -230,7 +230,7 @@ function run(site, sitename, recipients, length, reports = null) {
                 switch (report.toLowerCase()) {
                     case "in out report":
                         //run query and wait for results 
-                        report_inout(site, start, end).then((data) => {
+                        require('./modules/report_inout')(site, start, end, bigquery).then((data) => {
                             // declare string to later concatenate to the html to produce a table of results
                             let masterString = ""
                             data.sort(function (a, b) {
