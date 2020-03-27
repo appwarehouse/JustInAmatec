@@ -1,7 +1,8 @@
-const {generateReport } = require("../index");
-var exitCount;
-var enterCount;
-function report_processData(data) {
+module.exports = function (data) {
+async function  report_processData() {
+        var exitCount;
+        var enterCount;
+        let masterString = ""
         data.forEach((result) => {
             if (result.exit_device_name) {
                 exitCount++;
@@ -15,6 +16,7 @@ function report_processData(data) {
             let exitdate;
             let minsOnSite;
             let exitTime;
+            
             //split vehicle details to show on page line by line
             let VehicleDetailsSplit = result.VehicleDetails.split("/");
             result.VehicleDetailsSplit = VehicleDetailsSplit;
@@ -146,5 +148,7 @@ function report_processData(data) {
         
         return masterString;
     }
+    return report_processData();
+}
 
-exports.report_processData = report_processData;
+

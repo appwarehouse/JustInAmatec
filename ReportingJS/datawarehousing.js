@@ -12,7 +12,7 @@ module.exports = function (cron, bigquery) {
                 CurrentDate = new Date().toISOString();
                 CurrentTime =  Date.now()
                 console.log("Date is " + CurrentDate)
-                //UpdateTable();
+                UpdateTable();
             } else if (jobsTracking === true) {
                 console.log('Another job is still running.')
             }
@@ -257,6 +257,7 @@ module.exports = function (cron, bigquery) {
             console.log('Inserting all GateExit that doesnt have GateEnter');
             const query = `INSERT INTO \`boomin-3f5a2.JustIN.IN_OUT_EVENT_WAREHOUSE\` 
             ( exit_time, 
+                site_id,
                 firebase_exit_insert_id, 
                 exit_device_id, 
                 exit_device_name, 
@@ -276,6 +277,7 @@ module.exports = function (cron, bigquery) {
                 exit_driver_card_photo_url, 
                 processed_exit)
           select device_timestamp, 
+          site_id,
           firebase_insert_id, 
           device_id, 
           device_name,

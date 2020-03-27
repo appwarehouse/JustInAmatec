@@ -39,8 +39,8 @@ const bqoptions = {
     projectId: 'boomin-3f5a2',
 };
 
-const { report_processData } = require("././modules/report_processData");
-const { report_inout } = require("./modules/report_inout");
+/* const { report_processData } = require("././modules/report_processData");
+const { report_inout } = require("./modules/report_inout"); */
 
 //initialize bigquery with options from above
 const bigquery = new BigQuery(bqoptions);
@@ -89,7 +89,6 @@ const Ftp = new jsftp({
     user: "codecronie@just-in.co.za", // defaults to "anonymous"
     pass: "theappwarehouserocks" // defaults to "@anonymous"
 });
-
 
 // configure express to listen on the environemnt port, or if not available on port 3000
 const port = process.env.PORT || 3000;
@@ -232,7 +231,6 @@ function run(site, sitename, recipients, length, reports = null) {
                         //run query and wait for results 
                         require('./modules/report_inout')(site, start, end, bigquery).then((data) => {
                             // declare string to later concatenate to the html to produce a table of results
-                            let masterString = ""
                             data.sort(function (a, b) {
                                 return new Date(a.f0_).getTime() - new Date(b.f0_).getTime()
                             });
@@ -242,12 +240,33 @@ function run(site, sitename, recipients, length, reports = null) {
                             }
                             else {
                                 //process the report data
-                                var htmlReport = report_processData(data)
+                                let masterString =  require('./modules/report_processData')(data);
+                                generateReport(masterString, sitename, site, recipients, start, end)
                             }
                         })
                         break;
-                    case "still on site":
-
+                    case "Exception":
+                        //run query and wait for results 
+                        require('./modules/report_ExceptionReport')(site, start, end, bigquery).then((data) => {
+                            // declare string to later concatenate to the html to produce a table of results
+                            data.sort(function (a, b) {
+                                return new Date(a.f0_).getTime() - new Date(b.f0_).getTime()
+                            });
+                            if (data.length === 0) {
+                                //no data in report send email to recipients
+                                noReportResults(sitename, start, end, recipients, site);
+                            }
+                            else {
+                                if ('Exception_Type' in data) {
+                                    let masterString =  require('./modules/report_ExceptionDataProcess')(data);
+                                    generateReport(masterString, sitename, site, recipients, start, end)
+                                }else{
+                                    //process the report data
+                                    let masterString =  require('./modules/report_processData')(data);
+                                    generateReport(masterString, sitename, site, recipients, start, end)
+                                }
+                            }
+                        })
                         break;
 
 
@@ -265,7 +284,7 @@ function run(site, sitename, recipients, length, reports = null) {
 
 function noReportResults(sitename, start, end, recipients, site, reportTypeName) {
     try {
-        let message = "<h2>" + reportTypeName + "</h2><p>" +
+        let message = "<h2> In Out Report </h2><p>" +
             "Your report for " + sitename + ", date range <strong>" + start + "</strong> to <strong>" + end +
             "</strong> had no records.</p>" +
             "<p><strong>Kind Regards<br>Just-In Reporting</strong></p>"; // html body
